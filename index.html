@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <!-- เริ่มต้นส่วนตั้งค่า PWA / ไอคอนบนมือถือ -->
+  
+ <!-- เริ่มต้นส่วนตั้งค่า PWA / ไอคอนบนมือถือ -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1a73e8">
 
@@ -10,7 +11,7 @@
     <meta name="apple-mobile-web-app-title" content="Fix1204">
     <link rel="apple-touch-icon" href="./icon-192x192.png">
   <!-- สิ้นสุดส่วนตั้งค่า PWA / ไอคอนบนมือถือ -->
-
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ระบบลงชื่อเข้าใช้งานห้องคอมพิวเตอร์ - โรงเรียนคงคาราม</title>
@@ -100,6 +101,42 @@
         border: 1px solid #94a3b8 !important;
         padding: 2.5px 3px !important;
         position: static !important;
+      }
+      /* โหมดพิมพ์ผังรายงานรายวันพร้อมรูปถ่าย (A4 แนวตั้ง) */
+      body.print-daily-map-mode #view-student,
+      body.print-daily-map-mode #view-teacher > div:first-child,
+      body.print-daily-map-mode #view-teacher > div:nth-child(2),
+      body.print-daily-map-mode #report-20w-card,
+      body.print-daily-map-mode #history-logs-card,
+      body.print-daily-map-mode #daily-report-controls {
+        display: none !important;
+      }
+      body.print-daily-map-mode #view-teacher,
+      body.print-daily-map-mode #teacher-tab-reports,
+      body.print-daily-map-mode #daily-visual-report-card {
+        display: block !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      body.print-daily-map-mode #daily-print-header {
+        display: flex !important;
+      }
+      body.print-daily-map-mode #daily-seating-grid {
+        gap: 4px !important;
+      }
+      body.print-daily-map-mode #daily-seating-grid > div {
+        gap: 4px !important;
+      }
+      body.print-daily-map-mode .daily-seat-box {
+        min-height: 54px !important;
+        padding: 2px !important;
+        border-radius: 6px !important;
+      }
+      body.print-daily-map-mode .daily-seat-photo {
+        width: 24px !important;
+        height: 24px !important;
       }
       #class-status-banner {
         margin-bottom: 6px !important;
@@ -243,6 +280,7 @@
                 <span id="banner-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">กำลังเปิดรับลงชื่อ</span>
                 <span id="banner-period" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-900">คาบ 1</span>
                 <span id="banner-week" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-900">สัปดาห์ที่ 1 / 20</span>
+                <span id="banner-countdown" class="hidden px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-rose-100 text-rose-800 border border-rose-200">ปิดอัตโนมัติใน 30:00</span>
               </div>
               <h2 id="banner-subject" class="text-base sm:text-lg font-bold text-slate-900">ว31105 วิทยาการคำนวณ 1</h2>
               <p id="banner-detail" class="text-xs sm:text-sm text-slate-600">ระดับชั้น ม.4/1 • กดเลือกหมายเลขเครื่องที่นั่งเพื่อลงชื่อและถ่ายภาพ</p>
@@ -274,15 +312,15 @@
         </div>
       </div>
 
-      <!-- ผังตำแหน่งเครื่องคอมพิวเตอร์ (PC-01 ถึง PC-40) -->
-      <div id="seating-map-wrapper" class="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200 shadow-sm overflow-x-auto">
-        <div id="seating-map-inner" class="min-w-[680px] relative pr-11">
-          <div id="back-room-label" class="text-center text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">
+      <!-- ผังตำแหน่งเครื่องคอมพิวเตอร์ (PC-01 ถึง PC-40) รองรับทุกขนาดหน้าจอ (Mobile / Tablet / Desktop) -->
+      <div id="seating-map-wrapper" class="bg-white rounded-3xl p-3 sm:p-6 border border-slate-200 shadow-sm">
+        <div id="seating-map-inner" class="w-full relative pr-7 sm:pr-11">
+          <div id="back-room-label" class="text-center text-[11px] sm:text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3 sm:mb-4">
             ด้านหลังห้องปฏิบัติการคอมพิวเตอร์
           </div>
-          <div id="pc-layout-container" class="space-y-3"></div>
-          <div id="entrance-door-box" class="absolute right-0 bottom-0 h-32 w-9 bg-slate-200/90 border border-slate-300 rounded-xl flex items-center justify-center shadow-inner">
-            <span class="vertical-text text-xs font-bold text-slate-700 tracking-wider">ประตูทางเข้า</span>
+          <div id="pc-layout-container" class="space-y-2 sm:space-y-3"></div>
+          <div id="entrance-door-box" class="absolute right-0 bottom-0 h-24 sm:h-32 w-6 sm:w-9 bg-slate-200/90 border border-slate-300 rounded-lg sm:rounded-xl flex items-center justify-center shadow-inner">
+            <span class="vertical-text text-[10px] sm:text-xs font-bold text-slate-700 tracking-wider">ประตูทางเข้า</span>
           </div>
         </div>
       </div>
@@ -414,6 +452,9 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">สถานะ: กำลังเปิดสอน</span>
                 <span id="t-card-time" class="text-xs font-mono text-emerald-800">08:30:00</span>
               </div>
+              <div id="t-card-countdown" class="hidden text-xs font-mono font-bold text-rose-700 bg-rose-100/80 px-2.5 py-1 rounded-lg border border-rose-200">
+                ปิดอัตโนมัติในอีก 30:00 นาที
+              </div>
               <div id="t-card-subject" class="font-bold text-slate-900 text-base">ว31105 วิทยาการคำนวณ 1</div>
               <div id="t-card-meta" class="text-xs text-slate-600">ห้อง ม.4/1 • คาบ 1 • สัปดาห์ที่ 1</div>
               <div class="pt-2 border-t border-emerald-200/70 flex items-center justify-between text-xs font-semibold">
@@ -544,6 +585,69 @@
 
       <!-- แท็บ 5: รายงาน 20 สัปดาห์ & ประวัติภาพถ่าย -->
       <div id="teacher-tab-reports" class="hidden space-y-6">
+        <!-- การ์ดใหม่: รายงานผังการเข้าใช้งานรายวัน / รายคาบ พร้อมภาพถ่าย -->
+        <div id="daily-visual-report-card" class="bg-white rounded-2xl p-5 sm:p-6 border border-blue-200 shadow-sm space-y-4">
+          <div id="daily-print-header" class="hidden items-center justify-between border-b-2 border-slate-800 pb-2 mb-2">
+            <div class="flex items-center gap-2.5">
+              <img src="https://i.ibb.co/GQqkFPsY/jaae-PNGTran-small.png" alt="โลโก้โรงเรียนคงคาราม" class="w-10 h-10 object-contain">
+              <div>
+                <h2 class="font-bold text-sm text-slate-900">ผังบันทึกการเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์ (รายวัน / รายคาบ)</h2>
+                <p id="daily-print-subtitle" class="text-[11px] text-slate-600">วันที่: - | คาบเรียน: - | รายวิชา: -</p>
+              </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-600">
+              <div id="daily-print-teacher">ครูผู้สอน: -</div>
+              <div id="daily-print-summary">เข้าใช้งาน: 0 คน</div>
+            </div>
+          </div>
+
+          <div id="daily-report-controls" class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md bg-blue-100 text-blue-900 text-[11px] font-bold">มุมมองภาพรวมรายวัน</span>
+                <h3 class="font-bold text-base text-slate-900">ผังการเข้าใช้งานรายวัน / รายคาบ (พร้อมภาพถ่ายยืนยันตัวตน)</h3>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">เลือกวันที่ คาบเรียน หรือรายวิชา เพื่อตรวจสอบผังที่นั่ง ชื่อนักเรียน และภาพถ่ายย้อนหลัง</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <input type="date" id="daily-filter-date" onchange="renderDailyVisualReport()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white font-mono">
+              <select id="daily-filter-period" onchange="renderDailyVisualReport()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white">
+                <option value="">-- ทุกคาบเรียน --</option>
+                <option value="คาบ 1">คาบ 1</option>
+                <option value="คาบ 2">คาบ 2</option>
+                <option value="คาบ 3">คาบ 3</option>
+                <option value="คาบ 4">คาบ 4</option>
+                <option value="คาบ 5">คาบ 5</option>
+                <option value="คาบ 6">คาบ 6</option>
+                <option value="คาบ 7">คาบ 7</option>
+                <option value="คาบ 8">คาบ 8</option>
+                <option value="คาบ 9">คาบ 9</option>
+              </select>
+              <select id="daily-filter-subject" onchange="renderDailyVisualReport()" class="rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white min-w-[150px]">
+                <option value="">-- ทุกรายวิชา --</option>
+              </select>
+              <button onclick="renderDailyVisualReport()" class="px-3.5 py-2 rounded-xl bg-blue-950 hover:bg-blue-900 text-white text-xs font-semibold flex items-center gap-1">
+                <i data-lucide="search" class="w-3.5 h-3.5"></i> ดูผังรายวัน
+              </button>
+              <button onclick="printDailySeatingReportA4()" class="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-blue-950 text-xs font-bold flex items-center gap-1.5 shadow-xs">
+                <i data-lucide="printer" class="w-3.5 h-3.5"></i> พิมพ์ผังรายวัน (A4)
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/80">
+            <div id="daily-report-summary-text" class="font-medium text-slate-700">กำลังโหลดข้อมูลรายวัน...</div>
+            <div class="flex items-center gap-3 text-[11px]">
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> มีผู้เข้าใช้งาน</span>
+              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></span> ว่าง / ไม่มีผู้จอง</span>
+            </div>
+          </div>
+
+          <!-- ผังห้องคอมพิวเตอร์ 40 เครื่องพร้อมรูปภาพ -->
+          <div id="daily-seating-grid" class="space-y-2"></div>
+        </div>
+
         <div id="report-20w-card" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
           <!-- หัวกระดาษสำหรับสั่งพิมพ์ A4 (ซ่อนบนหน้าจอปกติ) -->
           <div id="report-print-header" class="hidden border-b-2 border-slate-800 pb-3 mb-3">
@@ -889,19 +993,19 @@
         <div class="grow border-t border-slate-200"></div>
       </div>
 
-      <div class="space-y-3">
+      <form onsubmit="event.preventDefault(); loginWithPin();" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">รหัสผู้ใช้ / อีเมลครูผู้สอน</label>
-          <input type="text" id="login-teacher-email" placeholder="เช่น Teacher หรือ bambest" onkeydown="if(event.key==='Enter') { event.preventDefault(); document.getElementById('login-teacher-pin').focus(); }" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm">
+          <input type="text" id="login-teacher-email" placeholder="เช่น Teacher หรือ bambest" onkeydown="if(event.key==='Enter') { event.preventDefault(); const pinEl = document.getElementById('login-teacher-pin'); if(!pinEl.value.trim()) { pinEl.focus(); } else { loginWithPin(); } }" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">รหัส PIN / รหัสผ่าน (รองรับ 4 หลักขึ้นไป)</label>
           <input type="password" id="login-teacher-pin" placeholder="กรอกรหัสผ่าน / PIN ของคุณ" onkeydown="if(event.key==='Enter') { event.preventDefault(); loginWithPin(); }" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-mono tracking-widest">
         </div>
-        <button onclick="loginWithPin()" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-blue-950 font-bold text-sm transition">
+        <button type="submit" id="btn-submit-teacher-login" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-blue-950 font-bold text-sm transition">
           เข้าสู่ระบบด้วยรหัสผ่าน / PIN
         </button>
-      </div>
+      </form>
     </div>
   </div>
 
@@ -952,11 +1056,31 @@
     </div>
   </div>
 
+  <!-- MODAL 5: หน้าต่างขยายดูภาพถ่ายยืนยันตัวตนจากผังรายวัน -->
+  <div id="modal-photo-preview" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4" onclick="if(event.target===this) this.classList.add('hidden')">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-slate-200 space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+        <div>
+          <span id="preview-photo-pc" class="px-2.5 py-0.5 rounded-lg bg-blue-950 text-amber-400 font-bold text-xs">เครื่องที่ 1</span>
+          <h4 id="preview-photo-student" class="font-bold text-sm text-slate-900 mt-1">-</h4>
+        </div>
+        <button onclick="document.getElementById('modal-photo-preview').classList.add('hidden')" class="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center min-h-[220px]">
+        <img id="preview-photo-img" src="" alt="ภาพถ่ายยืนยันตัวตน" class="w-full max-h-80 object-contain">
+      </div>
+      <div id="preview-photo-meta" class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-200/70"></div>
+    </div>
+  </div>
+
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     const isGasEnvironment = (typeof google !== 'undefined' && google.script && google.script.run);
     const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzifQz4TUPG1FEmNaCEDRne7OPml2BN1xGMlWEUKJOJ969JIWaL_W8VTRR47ulhnIud/exec';
     const DEFAULT_SHEET_ID = '13O3dys_5hE2P1TEUeZhC_jNz4XD4Mz0wBbBJnLH7wRQ';
+    const AUTO_CLOSE_MINUTES = 30;
 
     function getActiveScriptUrl() {
       return localStorage.getItem('KONGKARAM_SCRIPT_URL') || DEFAULT_SCRIPT_URL;
@@ -970,7 +1094,8 @@
       return localStorage.getItem('KONGKARAM_GOOGLE_CLIENT_ID') || '';
     }
 
-    const mockDatabase = {
+    // ข้อมูลจำลองกรณีเปิด Preview นอก Google Apps Script
+    let mockDatabase = {
       activeSession: {
         status: 'OPEN',
         subjectId: 'ว31105',
@@ -979,14 +1104,15 @@
         period: 'คาบ 1',
         week: 1,
         teacherEmail: 'teacher1@kongkaram.ac.th',
-        openTime: '08:30:00'
+        openTime: new Date().toTimeString().split(' ')[0]
       },
       computers: Array.from({ length: 40 }, (_, i) => {
         const num = i + 1;
         return {
           pcId: 'PC-' + String(num).padStart(2, '0'),
           assetCode: '69-15-033-' + String(41 + num).padStart(3, '0'),
-          status: num === 14 ? 'ชำรุด' : 'พร้อมใช้งาน'
+          rowZone: 'แถว ' + Math.ceil(num / 5),
+          status: 'พร้อมใช้งาน'
         };
       }),
       activeBookings: {
@@ -1296,73 +1422,76 @@
       populateWeekFilter();
       refreshSystem();
       lucide.createIcons();
+
+      // นับถอยหลัง 30 นาทีแบบเรียลไทม์ทุก 1 วินาที และปิดคลาสอัตโนมัติเมื่อครบกำหนด
+      setInterval(() => {
+        updateCountdownDisplay();
+      }, 1000);
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter') return;
+    function getRemainingSecondsForOpenClass() {
+      const s = appState.activeSession;
+      if (!s || s.status !== 'OPEN' || !s.openTime) return null;
 
-      const checkinModal = document.getElementById('modal-checkin');
-      if (checkinModal && !checkinModal.classList.contains('hidden')) {
-        if (document.activeElement === document.getElementById('input-student-id')) {
-          return;
+      const parts = String(s.openTime).trim().split(':');
+      if (parts.length < 2) return null;
+
+      const now = new Date();
+      const openDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        Number(parts[0]),
+        Number(parts[1]),
+        Number(parts[2] || 0)
+      );
+      if (isNaN(openDate.getTime())) return null;
+
+      const expireMs = openDate.getTime() + AUTO_CLOSE_MINUTES * 60 * 1000;
+      return Math.floor((expireMs - now.getTime()) / 1000);
+    }
+
+    let autoCloseTriggeredInClient = false;
+
+    function updateCountdownDisplay() {
+      const bannerCd = document.getElementById('banner-countdown');
+      const teacherCd = document.getElementById('t-card-countdown');
+      const remSec = getRemainingSecondsForOpenClass();
+
+      if (remSec === null) {
+        autoCloseTriggeredInClient = false;
+        if (bannerCd) bannerCd.classList.add('hidden');
+        if (teacherCd) teacherCd.classList.add('hidden');
+        return;
+      }
+
+      if (remSec <= 0) {
+        if (bannerCd) {
+          bannerCd.textContent = 'หมดเวลา 30 นาที • กำลังปิดคลาส...';
+          bannerCd.classList.remove('hidden');
         }
-        e.preventDefault();
-        if (!appState.verifiedStudent) {
-          checkStudentCode();
-        } else if (!appState.capturedImageBase64) {
-          capturePhoto();
-        } else {
-          const submitBtn = document.getElementById('btn-submit-checkin');
-          if (submitBtn && !submitBtn.disabled) {
-            submitCheckIn();
-          }
+        if (teacherCd) {
+          teacherCd.textContent = 'ครบกำหนด 30 นาทีแล้ว • กำลังปิดคลาสอัตโนมัติ...';
+          teacherCd.classList.remove('hidden');
+        }
+        if (!autoCloseTriggeredInClient) {
+          autoCloseTriggeredInClient = true;
+          handleCloseClass(true);
         }
         return;
       }
 
-      const loginModal = document.getElementById('modal-teacher-login');
-      if (loginModal && !loginModal.classList.contains('hidden')) {
-        if (document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'BUTTON') {
-          e.preventDefault();
-          loginWithPin();
-        }
+      autoCloseTriggeredInClient = false;
+      const mins = String(Math.floor(remSec / 60)).padStart(2, '0');
+      const secs = String(remSec % 60).padStart(2, '0');
+
+      if (bannerCd) {
+        bannerCd.textContent = `ปิดอัตโนมัติใน ${mins}:${secs}`;
+        bannerCd.classList.remove('hidden');
       }
-    });
-
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      const colors = type === 'error'
-        ? 'bg-rose-600 text-white'
-        : type === 'warning'
-        ? 'bg-amber-500 text-blue-950'
-        : 'bg-slate-900 text-white';
-
-      toast.className = `${colors} px-4 py-3 rounded-2xl shadow-lg text-sm font-medium flex items-center gap-2.5 pointer-events-auto transition-all`;
-      toast.innerHTML = `<i data-lucide="${type === 'error' ? 'alert-circle' : 'check-circle'}" class="w-4 h-4 shrink-0"></i><span>${message}</span>`;
-      container.appendChild(toast);
-      lucide.createIcons();
-
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-      }, 3500);
-    }
-
-    async function refreshSystem() {
-      const res = await callServer('getSystemState');
-      if (res && res.success) {
-        appState.activeSession = res.activeSession;
-        appState.computers = res.computers;
-        appState.activeBookings = res.activeBookings;
-        appState.schedules = res.schedules;
-        if (res.students) appState.students = res.students;
-
-        updateClassBanner();
-        renderComputerGrid();
-        if (appState.currentTeacher) {
-          updateTeacherDashboard();
-        }
+      if (teacherCd) {
+        teacherCd.textContent = `ปิดอัตโนมัติในอีก ${mins}:${secs} นาที (หรือกดปุ่มปิดด้านล่าง)`;
+        teacherCd.classList.remove('hidden');
       }
     }
 
@@ -1455,7 +1584,7 @@
 
       layoutRows.forEach((rowItems) => {
         const rowDiv = document.createElement('div');
-        rowDiv.className = 'grid grid-cols-5 gap-3';
+        rowDiv.className = 'grid grid-cols-5 gap-1.5 sm:gap-3';
 
         rowItems.forEach((item) => {
           if (item === null) {
@@ -1465,8 +1594,8 @@
 
           if (item === 'SUBMIT_DESK') {
             const deskDiv = document.createElement('div');
-            deskDiv.className = 'col-span-2 bg-slate-100 border-2 border-slate-400 rounded-xl flex items-center justify-center p-3 shadow-inner';
-            deskDiv.innerHTML = '<span class="font-bold text-slate-700 text-sm sm:text-base tracking-wide">โต๊ะส่งงาน</span>';
+            deskDiv.className = 'col-span-2 bg-slate-100 border-2 border-slate-400 rounded-lg sm:rounded-xl flex items-center justify-center p-2 sm:p-3 shadow-inner text-center';
+            deskDiv.innerHTML = '<span class="font-bold text-slate-700 text-xs sm:text-base tracking-wide">โต๊ะส่งงาน</span>';
             rowDiv.appendChild(deskDiv);
             return;
           }
@@ -1487,35 +1616,35 @@
 
           if (isBroken) {
             btn.disabled = true;
-            btn.className = 'seat-card bg-slate-100 border-2 border-slate-300 rounded-xl p-2 text-center opacity-70 cursor-not-allowed flex flex-col justify-between min-h-[76px]';
+            btn.className = 'seat-card bg-slate-100 border-2 border-slate-300 rounded-lg sm:rounded-xl p-1.5 sm:p-2 text-center opacity-70 cursor-not-allowed flex flex-col justify-between min-h-[68px] sm:min-h-[76px]';
             btn.innerHTML = `
-              <div class="font-bold text-sm sm:text-base text-slate-500 leading-none">เครื่องที่ ${pcNum}</div>
-              <div class="text-[10px] font-mono text-slate-400 mt-1">${compInfo.assetCode}</div>
-              <div class="text-[10px] font-semibold text-slate-500 bg-slate-200 rounded px-1.5 py-0.5 mt-1">ชำรุด</div>
+              <div class="font-bold text-[11px] sm:text-base text-slate-500 leading-tight"><span class="hidden sm:inline">เครื่องที่ </span>${pcNum}</div>
+              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400 mt-0.5 truncate w-full">${compInfo.assetCode}</div>
+              <div class="text-[9px] sm:text-[10px] font-semibold text-slate-500 bg-slate-200 rounded px-1 py-0.5 mt-1 w-full">ชำรุด</div>
             `;
           } else if (booking) {
             btn.disabled = true;
-            btn.className = 'seat-card bg-rose-50 border-2 border-rose-400 rounded-xl p-2 text-center cursor-not-allowed flex flex-col justify-between min-h-[82px] shadow-xs';
+            btn.className = 'seat-card bg-rose-50 border-2 border-rose-400 rounded-lg sm:rounded-xl p-1.5 sm:p-2 text-center cursor-not-allowed flex flex-col justify-between min-h-[72px] sm:min-h-[82px] shadow-xs';
             btn.innerHTML = `
               <div class="flex items-center justify-between w-full">
-                <span class="font-bold text-xs sm:text-sm text-rose-800 leading-none">เครื่องที่ ${pcNum}</span>
-                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                <span class="font-bold text-[11px] sm:text-sm text-rose-800 leading-none"><span class="hidden sm:inline">เครื่องที่ </span>${pcNum}</span>
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-rose-500 shrink-0"></span>
               </div>
-              <div class="text-xs sm:text-sm font-bold text-rose-950 leading-tight line-clamp-2 mt-1">${booking.studentName}</div>
-              <div class="text-[11px] font-mono font-semibold text-rose-700">${booking.studentId}</div>
+              <div class="text-[11px] sm:text-sm font-bold text-rose-950 leading-tight line-clamp-2 mt-1 break-words w-full">${booking.studentName}</div>
+              <div class="text-[9px] sm:text-[11px] font-mono font-semibold text-rose-700 truncate w-full">${booking.studentId}</div>
             `;
           } else {
             btn.disabled = !isClassOpen;
             btn.onclick = () => openCheckInModal(pcId);
             btn.className = isClassOpen
-              ? 'seat-card bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-500 rounded-xl p-2 text-center cursor-pointer flex flex-col justify-between min-h-[76px] shadow-sm'
-              : 'seat-card bg-white border-2 border-slate-300 rounded-xl p-2 text-center opacity-75 cursor-not-allowed flex flex-col justify-between min-h-[76px]';
+              ? 'seat-card bg-emerald-50 hover:bg-emerald-100 active:scale-95 border-2 border-emerald-500 rounded-lg sm:rounded-xl p-1.5 sm:p-2 text-center cursor-pointer flex flex-col justify-between min-h-[68px] sm:min-h-[76px] shadow-sm'
+              : 'seat-card bg-white border-2 border-slate-300 rounded-lg sm:rounded-xl p-1.5 sm:p-2 text-center opacity-75 cursor-not-allowed flex flex-col justify-between min-h-[68px] sm:min-h-[76px]';
 
             btn.innerHTML = `
-              <div class="font-bold text-sm sm:text-base ${isClassOpen ? 'text-emerald-900' : 'text-slate-700'} leading-none">เครื่องที่ ${pcNum}</div>
-              <div class="text-[10px] font-mono ${isClassOpen ? 'text-emerald-700' : 'text-slate-500'} mt-1">${compInfo.assetCode}</div>
-              <div class="text-[10px] font-semibold ${isClassOpen ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-500'} rounded px-1.5 py-0.5 mt-1">
-                ${isClassOpen ? 'ว่าง • กดจอง' : 'ปิดคลาส'}
+              <div class="font-bold text-[11px] sm:text-base ${isClassOpen ? 'text-emerald-900' : 'text-slate-700'} leading-tight"><span class="hidden sm:inline">เครื่องที่ </span>${pcNum}</div>
+              <div class="text-[8px] sm:text-[10px] font-mono ${isClassOpen ? 'text-emerald-700' : 'text-slate-500'} mt-0.5 truncate w-full">${compInfo.assetCode}</div>
+              <div class="text-[9px] sm:text-[10px] font-semibold ${isClassOpen ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-500'} rounded px-1 py-0.5 mt-1 w-full">
+                ${isClassOpen ? 'ว่าง<span class="hidden sm:inline"> • กดจอง</span>' : 'ปิดคลาส'}
               </div>
             `;
           }
@@ -1527,14 +1656,14 @@
       });
 
       const frontRow = document.createElement('div');
-      frontRow.className = 'grid grid-cols-5 gap-3 pt-3 border-t-2 border-dashed border-slate-200';
+      frontRow.className = 'grid grid-cols-5 gap-1.5 sm:gap-3 pt-2.5 sm:pt-3 border-t-2 border-dashed border-slate-200';
       frontRow.innerHTML = `
-        <div class="col-span-3 bg-rose-200/80 border-2 border-rose-300 rounded-xl py-3 px-4 flex items-center justify-center shadow-xs">
-          <span class="font-bold text-slate-800 text-sm sm:text-base tracking-wide">จอโปรเจ็คเตอร์</span>
+        <div class="col-span-3 bg-rose-200/80 border-2 border-rose-300 rounded-lg sm:rounded-xl py-2.5 sm:py-3 px-2 sm:px-4 flex items-center justify-center shadow-xs text-center">
+          <span class="font-bold text-slate-800 text-xs sm:text-base tracking-wide">จอโปรเจ็คเตอร์</span>
         </div>
-        <div class="col-span-2 bg-blue-50 border-2 border-blue-800 rounded-xl py-2 px-3 text-center shadow-xs">
-          <div class="font-bold text-blue-950 text-sm sm:text-base leading-tight">เครื่องครู</div>
-          <div class="text-xs font-mono font-semibold text-blue-800">69-15-033-082</div>
+        <div class="col-span-2 bg-blue-50 border-2 border-blue-800 rounded-lg sm:rounded-xl py-1.5 sm:py-2 px-2 sm:px-3 text-center shadow-xs flex flex-col justify-center">
+          <div class="font-bold text-blue-950 text-xs sm:text-base leading-tight">เครื่องครู</div>
+          <div class="text-[9px] sm:text-xs font-mono font-semibold text-blue-800 truncate">69-15-033-082</div>
         </div>
       `;
       container.appendChild(frontRow);
@@ -1747,10 +1876,51 @@
           const emailRes = await callServer('loginTeacher', [{ mode: 'google', email: typedEmail }]);
           handleLoginResult(emailRes);
         } else {
-          showToast('กรุณากรอกอีเมล Google ของครูในช่องด้านล่าง แล้วกดปุ่มเข้าสู่ระบบด้วยบัญชี Google อีกครั้ง (หรือให้ Admin ใส่ OAuth Client ID ในหน้าตั้งค่า)', 'warning');
+          showToast('กรุณากรอกอีเมล Google ของคุณในช่อง "รหัสผู้ใช้ / อีเมลครูผู้สอน" ด้านล่าง แล้วกดปุ่มนี้อีกครั้ง', 'warning');
           document.getElementById('login-teacher-email').focus();
         }
       }
+    }
+
+    async function refreshSystem() {
+      const res = await callServer('getSystemState');
+      if (res && res.success) {
+        appState.activeSession = res.activeSession || appState.activeSession;
+        appState.computers = res.computers || appState.computers;
+        appState.activeBookings = res.activeBookings || {};
+        appState.schedules = res.schedules || appState.schedules;
+        appState.students = res.students || appState.students;
+
+        if (res.activeSession && res.activeSession.autoClosed) {
+          showToast('ครบกำหนด 30 นาทีแล้ว ระบบปิดคลาสและบันทึกเวลาออกให้นักเรียนอัตโนมัติ', 'warning');
+        }
+
+        updateClassBanner();
+        updateCountdownDisplay();
+        renderComputerGrid();
+        if (appState.currentTeacher) {
+          updateTeacherDashboard();
+        }
+      }
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      const styles = {
+        success: 'bg-emerald-600 text-white border-emerald-500',
+        error: 'bg-rose-600 text-white border-rose-500',
+        warning: 'bg-amber-500 text-blue-950 border-amber-400',
+        info: 'bg-slate-800 text-white border-slate-700'
+      };
+      toast.className = `pointer-events-auto px-4 py-3 rounded-2xl shadow-lg border text-xs sm:text-sm font-semibold transition-all duration-300 ${styles[type] || styles.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
     }
 
     async function loginWithPin() {
@@ -1819,6 +1989,7 @@
       if (tab === 'equipment') renderEquipmentGrid();
       if (tab === 'reports') {
         populateReportFilters();
+        renderDailyVisualReport();
         generate20WeekReport();
         loadUsageLogs();
       }
@@ -1939,10 +2110,13 @@
       }
     }
 
-    async function handleCloseClass() {
+    async function handleCloseClass(isAuto = false) {
       const res = await callServer('closeClassSession');
       if (res.success) {
-        showToast(res.message, 'success');
+        showToast(
+          isAuto ? 'ครบกำหนด 30 นาที ระบบปิดคลาสและบันทึกเวลาออกให้นักเรียนเรียบร้อยแล้ว' : res.message,
+          isAuto ? 'warning' : 'success'
+        );
         refreshSystem();
       } else {
         showToast(res.message, 'error');
@@ -2179,9 +2353,16 @@
     async function populateReportFilters() {
       const subSel = document.getElementById('report-subject-id');
       const roomSel = document.getElementById('report-classroom');
+      const dailySubSel = document.getElementById('daily-filter-subject');
+      const dailyDateInput = document.getElementById('daily-filter-date');
       if (!subSel || !roomSel) return;
 
+      if (dailyDateInput && !dailyDateInput.value) {
+        dailyDateInput.value = new Date().toISOString().split('T')[0];
+      }
+
       const prevSub = subSel.value;
+      const prevDailySub = dailySubSel ? dailySubSel.value : '';
       const prevRoom = roomSel.value;
 
       // รวบรวมรหัสวิชาและชื่อวิชาจากตารางเรียนและสถานะคลาสปัจจุบัน
@@ -2219,13 +2400,23 @@
       }
 
       subSel.innerHTML = '<option value="">-- ทุกรายวิชา --</option>';
+      if (dailySubSel) dailySubSel.innerHTML = '<option value="">-- ทุกรายวิชา --</option>';
       Array.from(subjectMap.entries()).sort((a, b) => a[0].localeCompare(b[0], 'th')).forEach(([id, name]) => {
+        const label = name ? `${id} - ${name}` : id;
         const opt = document.createElement('option');
         opt.value = id;
-        opt.textContent = name ? `${id} - ${name}` : id;
+        opt.textContent = label;
         subSel.appendChild(opt);
+
+        if (dailySubSel) {
+          const opt2 = document.createElement('option');
+          opt2.value = id;
+          opt2.textContent = label;
+          dailySubSel.appendChild(opt2);
+        }
       });
       if (prevSub && subjectMap.has(prevSub)) subSel.value = prevSub;
+      if (dailySubSel && prevDailySub && subjectMap.has(prevDailySub)) dailySubSel.value = prevDailySub;
 
       roomSel.innerHTML = '<option value="">-- ทุกห้องเรียน --</option>';
       Array.from(roomSet).sort((a, b) => a.localeCompare(b, 'th')).forEach((rm) => {
@@ -2268,6 +2459,165 @@
         document.body.classList.remove('print-report-mode');
         const temp = document.getElementById('temp-landscape-print-style');
         if (temp) temp.remove();
+      }, 300);
+    }
+
+    // แปลงลิงก์ Google Drive เป็นลิงก์รูปภาพ Thumbnail ที่แสดงผลบนหน้าเว็บได้ทันที
+    function resolveDrivePhotoUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('data:image')) return url;
+      const match = url.match(/\/d\/([-\w]{25,})/) || url.match(/id=([-\w]{25,})/);
+      if (match && match[1]) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w400`;
+      }
+      return url;
+    }
+
+    function openPhotoPreviewModal(pcLabel, studentName, classRoom, dateStr, timeRange, subjectInfo, rawUrl) {
+      const imgUrl = resolveDrivePhotoUrl(rawUrl);
+      document.getElementById('preview-photo-pc').textContent = pcLabel;
+      document.getElementById('preview-photo-student').textContent = `${studentName} (${classRoom})`;
+      document.getElementById('preview-photo-img').src = imgUrl;
+      document.getElementById('preview-photo-meta').textContent = `วันที่ ${dateStr} • เวลา ${timeRange} • ${subjectInfo}`;
+      document.getElementById('modal-photo-preview').classList.remove('hidden');
+    }
+
+    async function renderDailyVisualReport() {
+      const dateVal = document.getElementById('daily-filter-date')?.value || '';
+      const periodVal = document.getElementById('daily-filter-period')?.value || '';
+      const subVal = document.getElementById('daily-filter-subject')?.value || '';
+      const grid = document.getElementById('daily-seating-grid');
+      const summaryEl = document.getElementById('daily-report-summary-text');
+      if (!grid) return;
+
+      summaryEl.textContent = 'กำลังดึงข้อมูลผังการเข้าใช้งาน...';
+
+      const res = await callServer('getUsageHistory', [{ subjectId: subVal, period: periodVal }]);
+      let logs = (res && res.success && Array.isArray(res.logs)) ? res.logs : [];
+
+      if (dateVal) {
+        logs = logs.filter((l) => String(l.date || '').trim() === dateVal);
+      }
+      if (periodVal) {
+        logs = logs.filter((l) => String(l.period || '').trim() === periodVal);
+      }
+
+      // จับคู่ข้อมูลการใช้งานล่าสุดของแต่ละหมายเลขเครื่อง (1-40)
+      const pcLogMap = {};
+      logs.forEach((l) => {
+        const m = String(l.pcId || '').match(/\d+/);
+        if (m) {
+          const num = Number(m[0]);
+          if (!pcLogMap[num]) pcLogMap[num] = l;
+        }
+      });
+
+      const activeCount = Object.keys(pcLogMap).length;
+      const roomsInLogs = Array.from(new Set(logs.map((l) => l.classRoom).filter(Boolean))).join(', ') || '-';
+      summaryEl.innerHTML = `วันที่ <strong>${dateVal || 'ทั้งหมด'}</strong> • คาบ: <strong>${periodVal || 'ทุกคาบ'}</strong> • ห้องเรียน: <strong>${roomsInLogs}</strong> • พบผู้เข้าใช้งาน <strong>${activeCount} เครื่อง</strong>`;
+
+      const layoutRows = [
+        [40, 39, 38, 37, null],
+        [36, 35, 34, 33, null],
+        [32, 31, 30, 29, 28],
+        [27, 26, 25, 24, 23],
+        [22, 21, 20, 19, 18],
+        [17, 16, 15, 14, 13],
+        [12, 11, 10, 9, 8],
+        [7, 6, 5, 4, 3],
+        [1, 2, 'SUBMIT_DESK', null]
+      ];
+
+      grid.innerHTML = '';
+
+      layoutRows.forEach((rowItems) => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'grid grid-cols-5 gap-1.5 sm:gap-2.5';
+
+        rowItems.forEach((item) => {
+          if (item === null) {
+            rowDiv.appendChild(document.createElement('div'));
+            return;
+          }
+          if (item === 'SUBMIT_DESK') {
+            const desk = document.createElement('div');
+            desk.className = 'col-span-2 bg-slate-100 border border-slate-300 rounded-xl flex items-center justify-center p-2 text-xs font-bold text-slate-600';
+            desk.textContent = 'โต๊ะส่งงาน';
+            rowDiv.appendChild(desk);
+            return;
+          }
+
+          const pcNum = item;
+          const pcLabel = `เครื่องที่ ${pcNum}`;
+          const log = pcLogMap[pcNum];
+          const card = document.createElement('div');
+
+          if (log) {
+            const thumbUrl = resolveDrivePhotoUrl(log.photoUrl);
+            const timeStr = `${log.checkIn || '-'}${log.checkOut ? ' - ' + log.checkOut : ''}`;
+            const subInfo = `${log.subjectId || ''} (${log.period || ''})`;
+
+            card.className = 'daily-seat-box bg-emerald-50/80 border-2 border-emerald-500 rounded-xl p-1.5 sm:p-2 flex flex-col justify-between min-h-[96px] sm:min-h-[112px] shadow-xs';
+            card.innerHTML = `
+              <div class="flex items-center justify-between gap-1 border-b border-emerald-200/80 pb-1">
+                <span class="font-bold text-[10px] sm:text-xs text-emerald-950">${pcLabel}</span>
+                <span class="px-1.5 py-0.2 rounded bg-emerald-600 text-white text-[9px] sm:text-[10px] font-semibold truncate">${log.classRoom || '-'}</span>
+              </div>
+              <div class="flex items-center gap-1.5 my-1">
+                ${thumbUrl
+                  ? `<img src="${thumbUrl}" alt="${log.studentName}" onclick="openPhotoPreviewModal('${pcLabel}', '${log.studentName}', '${log.classRoom || '-'}', '${log.date || ''}', '${timeStr}', '${subInfo}', '${log.photoUrl}')" class="daily-seat-photo w-9 h-9 sm:w-11 sm:h-11 rounded-lg object-cover border border-emerald-300 shrink-0 cursor-pointer hover:scale-105 transition" title="คลิกเพื่อขยายรูปภาพ">`
+                  : `<div class="daily-seat-photo w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-bold shrink-0">ไม่มีรูป</div>`
+                }
+                <div class="min-w-0 flex-1">
+                  <div class="text-[10px] sm:text-xs font-bold text-slate-900 leading-tight line-clamp-2 break-words">${log.studentName}</div>
+                  <div class="text-[9px] sm:text-[10px] font-mono text-slate-600 truncate">${log.studentId}</div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between text-[9px] text-emerald-800 font-mono pt-0.5 border-t border-emerald-200/60">
+                <span>${log.period || '-'}</span>
+                <span>${log.checkIn || '-'}</span>
+              </div>
+            `;
+          } else {
+            card.className = 'daily-seat-box bg-slate-50/70 border border-slate-200 rounded-xl p-1.5 sm:p-2 flex flex-col justify-between min-h-[82px] sm:min-h-[96px] opacity-70';
+            card.innerHTML = `
+              <div class="font-bold text-[10px] sm:text-xs text-slate-500">${pcLabel}</div>
+              <div class="text-center text-[10px] text-slate-400 my-auto">ว่าง</div>
+              <div class="text-[9px] text-slate-300 text-right">-</div>
+            `;
+          }
+
+          rowDiv.appendChild(card);
+        });
+
+        grid.appendChild(rowDiv);
+      });
+
+      const frontRow = document.createElement('div');
+      frontRow.className = 'grid grid-cols-5 gap-1.5 sm:gap-2.5 pt-2 border-t border-dashed border-slate-200';
+      frontRow.innerHTML = `
+        <div class="col-span-3 bg-rose-100/80 border border-rose-300 rounded-xl py-2 px-3 text-center text-xs font-bold text-slate-700">จอโปรเจ็คเตอร์</div>
+        <div class="col-span-2 bg-blue-50 border border-blue-800 rounded-xl py-2 px-3 text-center text-xs font-bold text-blue-950">เครื่องครู</div>
+      `;
+      grid.appendChild(frontRow);
+      lucide.createIcons();
+    }
+
+    function printDailySeatingReportA4() {
+      const dateVal = document.getElementById('daily-filter-date')?.value || 'ทั้งหมด';
+      const periodVal = document.getElementById('daily-filter-period')?.value || 'ทุกคาบเรียน';
+      const subSel = document.getElementById('daily-filter-subject');
+      const subLabel = (subSel && subSel.value) ? subSel.options[subSel.selectedIndex].text : 'ทุกรายวิชา';
+      const teacherName = appState.currentTeacher ? appState.currentTeacher.name : '-';
+
+      document.getElementById('daily-print-subtitle').textContent = `วันที่: ${dateVal} | คาบเรียน: ${periodVal} | รายวิชา: ${subLabel}`;
+      document.getElementById('daily-print-teacher').textContent = `ครูผู้สอน: ${teacherName}`;
+      document.getElementById('daily-print-summary').textContent = document.getElementById('daily-report-summary-text').textContent;
+
+      document.body.classList.add('print-daily-map-mode');
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('print-daily-map-mode');
       }, 300);
     }
 

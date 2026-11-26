@@ -92,7 +92,12 @@
           1204
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold leading-tight">ระบบเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์</h1>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-base sm:text-lg font-bold leading-tight">ระบบเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์</h1>
+            <span id="demo-mode-pill" class="hidden px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold tracking-wide">
+              DEMO PREVIEW MODE
+            </span>
+          </div>
           <p class="text-xs text-slate-300">ห้อง 1204 โรงเรียนคงคาราม จ.เพชรบุรี</p>
         </div>
       </div>
@@ -121,7 +126,7 @@
     <section id="class-banner" class="rounded-2xl p-4 border shadow-sm transition-all bg-slate-100 border-slate-300">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
             <span id="status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-600 text-white">
               กำลังโหลด...
             </span>
@@ -256,7 +261,7 @@
             </div>
           </div>
 
-          <div id="daily-photo-map-container" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-2 pt-2"></div>
+          <div id="daily-photo-map-container" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 pt-2"></div>
         </div>
 
         <div class="bg-white rounded-xl p-4 border border-slate-200 space-y-3">
@@ -267,10 +272,10 @@
             </div>
             <div class="flex flex-wrap items-center gap-2">
               <select id="report-subject-select" onchange="generate20WeekReport()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs sm:text-sm bg-white">
-                <option value="">-- เลือกรายวิชา --</option>
+                <option value="">-- ทุกรายวิชา --</option>
               </select>
               <select id="report-class-select" onchange="generate20WeekReport()" class="rounded-xl border border-slate-300 px-3 py-1.5 text-xs sm:text-sm bg-white">
-                <option value="">-- เลือกห้องเรียน --</option>
+                <option value="">-- ทุกห้องเรียน --</option>
               </select>
               <button onclick="print20WeekReportA4()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs sm:text-sm font-bold">
                 🖨️ พิมพ์รายงาน (A4)
@@ -338,7 +343,7 @@
           <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200 space-y-3">
             <div class="flex items-center justify-between gap-2">
               <h3 class="font-bold text-slate-800 text-sm">📁 จัดการโฟลเดอร์หลักเก็บรูปภาพ (Google Drive)</h3>
-              <a id="current-photo-folder-link" href="#" target="_blank" class="text-xs font-bold text-sky-600 hover:underline">
+              <a id="current-photo-folder-link" href="https://drive.google.com" target="_blank" class="text-xs font-bold text-sky-600 hover:underline">
                 เปิดโฟลเดอร์ใน Drive ↗
               </a>
             </div>
@@ -368,7 +373,7 @@
           <p id="print-class-subtitle" class="text-xs text-slate-500">โรงเรียนคงคาราม อำเภอเมืองเพชรบุรี จังหวัดเพชรบุรี</p>
         </div>
         <div class="flex items-center gap-2 text-[11px] sm:text-xs no-print">
-          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ว่าง</span>
+          <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> ว่าง</span>
           <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> จองแล้ว</span>
           <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> ชำรุด</span>
         </div>
@@ -414,7 +419,7 @@
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">กรอกรหัสนักเรียน (กด Enter เพื่อตรวจสอบ)</label>
           <div class="flex gap-2">
-            <input id="checkin-student-id" type="text" inputmode="numeric" placeholder="เช่น 23548"
+            <input id="checkin-student-id" type="text" inputmode="numeric" placeholder="ลองพิมพ์ 23548, 23564 หรือ 23571"
               onkeydown="if(event.key==='Enter'){event.preventDefault(); verifyStudentBeforeCapture();}"
               class="flex-1 rounded-xl border border-slate-300 px-3 py-2 text-base font-bold" />
             <button onclick="verifyStudentBeforeCapture()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm">
@@ -429,7 +434,7 @@
         </div>
 
         <div id="camera-section" class="hidden space-y-2">
-          <div class="relative rounded-xl overflow-hidden bg-black aspect-video flex items-center justify-center">
+          <div class="relative rounded-xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center">
             <video id="webcam-video" autoplay playsinline class="w-full h-full object-cover"></video>
             <img id="captured-preview" class="hidden w-full h-full object-cover" />
           </div>
@@ -462,13 +467,13 @@
       <form onsubmit="handleTeacherLoginSubmit(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">อีเมล / ชื่อผู้ใช้</label>
-          <input id="login-username" type="text" placeholder="admin@khongkaram.ac.th"
+          <input id="login-username" type="text" placeholder="admin@khongkaram.ac.th" value="admin@khongkaram.ac.th"
             onkeydown="if(event.key==='Enter' && !document.getElementById('login-pin').value){event.preventDefault(); document.getElementById('login-pin').focus();}"
             class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">รหัส PIN / รหัสผ่าน</label>
-          <input id="login-pin" type="password" placeholder="••••••"
+          <input id="login-pin" type="password" placeholder="••••••" value="123456"
             class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
         </div>
         <button type="submit" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow">
@@ -480,11 +485,11 @@
 
   <!-- Modal 3: ขยายดูรูปภาพยืนยันตัวตน -->
   <div id="modal-photo-preview" onclick="this.classList.add('hidden')" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-3 space-y-2" onclick="event.stopPropagation()">
-      <img id="preview-large-img" src="" class="w-full rounded-xl object-contain max-h-[70vh]" />
-      <div class="flex items-center justify-between px-1">
+    <div class="bg-white rounded-2xl max-w-md w-full p-4 space-y-3" onclick="event.stopPropagation()">
+      <img id="preview-large-img" src="" class="w-full rounded-xl object-contain max-h-[65vh] bg-slate-100 border border-slate-200" />
+      <div class="flex items-center justify-between gap-2 px-1">
         <p id="preview-large-caption" class="text-xs sm:text-sm font-bold text-slate-800"></p>
-        <button onclick="document.getElementById('modal-photo-preview').classList.add('hidden')" class="px-3 py-1 rounded-lg bg-slate-800 text-white text-xs font-bold">ปิด</button>
+        <button onclick="document.getElementById('modal-photo-preview').classList.add('hidden')" class="px-3.5 py-1.5 rounded-lg bg-slate-800 text-white text-xs font-bold shrink-0">ปิด</button>
       </div>
     </div>
   </div>
@@ -494,15 +499,140 @@
 
   <script>
     const DEFAULT_SCRIPT_URL = localStorage.getItem('LAB1204_SCRIPT_URL') || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+    const IS_DEMO_MODE = !DEFAULT_SCRIPT_URL || DEFAULT_SCRIPT_URL.includes('YOUR_SCRIPT_ID');
 
-    let appState = {
-      classStatus: { isOpen: false },
-      computers: [],
-      students: [],
-      logs: [],
-      schedules: [],
-      meta: {}
+    // สร้างภาพจำลองใบหน้านักเรียนแบบคมชัดด้วย SVG Data URI สำหรับโหมด Preview
+    function createDemoAvatarSvg(bgHex, shirtHex, hairHex, labelText) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+        <rect width="120" height="120" fill="${bgHex}"/>
+        <rect x="8" y="8" width="104" height="104" rx="14" fill="#ffffff" fill-opacity="0.18"/>
+        <circle cx="60" cy="48" r="22" fill="#fed7aa"/>
+        <path d="M38 45 C38 26, 82 26, 82 45 C78 34, 42 34, 38 45 Z" fill="${hairHex}"/>
+        <circle cx="52" cy="48" r="2.5" fill="#1e293b"/>
+        <circle cx="68" cy="48" r="2.5" fill="#1e293b"/>
+        <path d="M54 57 Q60 62 66 57" stroke="#9a3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M26 115 C26 84, 94 84, 94 115 Z" fill="${shirtHex}"/>
+        <text x="60" y="110" font-family="sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">${labelText}</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    // ฐานข้อมูลจำลองในตัวสำหรับการทดลองใช้งานบน Preview ทันที
+    const todayIso = new Date().toISOString().split('T')[0];
+    let demoStore = {
+      classStatus: {
+        isOpen: true,
+        subjectCode: 'ว22103',
+        subjectName: 'วิทยาการคำนวณ 2',
+        classroom: 'ม.2/1',
+        period: 'คาบ 1',
+        week: '1',
+        teacherEmail: 'admin@khongkaram.ac.th',
+        openTime: '08:30:00'
+      },
+      students: [
+        { studentId: '23548', fullName: 'ด.ช.กัณฑ์อเนก พราหมณ์สังข์', classroom: 'ม.2/1' },
+        { studentId: '23564', fullName: 'ด.ช.จีรพัฒน์ อินทร์เนตร', classroom: 'ม.2/1' },
+        { studentId: '23571', fullName: 'ด.ช.ชยพล แสงหิรัญ', classroom: 'ม.2/1' },
+        { studentId: '23597', fullName: 'ด.ช.ณัฐวัฒน์ สร้อยทอง', classroom: 'ม.2/1' },
+        { studentId: '23607', fullName: 'ด.ช.ถิรวัฒน์ กุศล', classroom: 'ม.2/1' },
+        { studentId: '23612', fullName: 'ด.ช.ธนกฤต เลิศทวีวัฒนา', classroom: 'ม.2/1' },
+        { studentId: '23627', fullName: 'ด.ช.ธนากร เหลี่ยมวงษ์', classroom: 'ม.2/1' },
+        { studentId: '23671', fullName: 'ด.ช.พงศพัศ หน่ายสุวรรณ', classroom: 'ม.2/1' },
+        { studentId: '1001', fullName: 'น.ส.ศรันย์ ทดสอบ', classroom: 'ม.4/12' }
+      ],
+      schedules: [
+        { day: 'จันทร์', period: 'คาบ 1', subjectCode: 'ว22103', subjectName: 'วิทยาการคำนวณ 2', classroom: 'ม.2/1' },
+        { day: 'จันทร์', period: 'คาบ 3', subjectCode: 'ว31105', subjectName: 'วิทยาการคำนวณ 1', classroom: 'ม.4/12' },
+        { day: 'อังคาร', period: 'คาบ 2', subjectCode: 'ว22103', subjectName: 'วิทยาการคำนวณ 2', classroom: 'ม.2/2' }
+      ],
+      brokenPcs: { 14: 'ชำรุด (จอไม่ติด)', 29: 'ส่งซ่อม' },
+      logs: [
+        {
+          date: todayIso,
+          pcNo: 9,
+          studentId: '1001',
+          studentName: 'น.ส.ศรันย์ ทดสอบ',
+          classroom: 'ม.4/12',
+          subjectCode: 'ว22103',
+          period: 'คาบ 1',
+          week: '1',
+          checkIn: '11:41:03',
+          status: 'กำลังใช้งาน',
+          photoUrl: createDemoAvatarSvg('#0284c7', '#1e293b', '#0f172a', 'PC-09')
+        },
+        {
+          date: todayIso,
+          pcNo: 38,
+          studentId: '23548',
+          studentName: 'ด.ช.กัณฑ์อเนก พราหมณ์สังข์',
+          classroom: 'ม.2/1',
+          subjectCode: 'ว22103',
+          period: 'คาบ 1',
+          week: '1',
+          checkIn: '08:32:15',
+          status: 'กำลังใช้งาน',
+          photoUrl: createDemoAvatarSvg('#059669', '#0369a1', '#1e293b', 'PC-38')
+        },
+        {
+          date: todayIso,
+          pcNo: 35,
+          studentId: '23571',
+          studentName: 'ด.ช.ชยพล แสงหิรัญ',
+          classroom: 'ม.2/1',
+          subjectCode: 'ว22103',
+          period: 'คาบ 1',
+          week: '1',
+          checkIn: '08:33:40',
+          status: 'กำลังใช้งาน',
+          photoUrl: createDemoAvatarSvg('#7c3aed', '#1d4ed8', '#090d16', 'PC-35')
+        },
+        {
+          date: todayIso,
+          pcNo: 24,
+          studentId: '23671',
+          studentName: 'ด.ช.พงศพัศ หน่ายสุวรรณ',
+          classroom: 'ม.2/1',
+          subjectCode: 'ว22103',
+          period: 'คาบ 1',
+          week: '1',
+          checkIn: '08:34:12',
+          status: 'กำลังใช้งาน',
+          photoUrl: createDemoAvatarSvg('#d97706', '#0f766e', '#1e293b', 'PC-24')
+        }
+      ],
+      meta: {
+        spreadsheetId: '13O3dys_5hE2P1TEUeZhC_jNz4XD4Mz0wBbBJnLH7wRQ',
+        photoFolderName: 'ภาพถ่ายเข้าใช้งานห้องคอมพิวเตอร์_คงคาราม',
+        photoFolderUrl: 'https://drive.google.com'
+      }
     };
+
+    function buildDemoSystemState() {
+      const computers = [];
+      for (let i = 1; i <= 40; i++) {
+        const activeBooking = demoStore.classStatus.isOpen
+          ? demoStore.logs.find(l => l.pcNo === i && l.status === 'กำลังใช้งาน') || null
+          : null;
+        computers.push({
+          pcNo: i,
+          assetCode: `69-15-033-${String(41 + i).padStart(3, '0')}`,
+          status: demoStore.brokenPcs[i] || 'พร้อมใช้งาน',
+          booking: activeBooking
+        });
+      }
+      return {
+        status: 'success',
+        classStatus: demoStore.classStatus,
+        computers,
+        students: demoStore.students,
+        logs: demoStore.logs,
+        schedules: demoStore.schedules,
+        meta: demoStore.meta
+      };
+    }
+
+    let appState = buildDemoSystemState();
     let currentTeacher = JSON.parse(sessionStorage.getItem('LAB1204_TEACHER') || 'null');
     let selectedPcNo = null;
     let webcamStream = null;
@@ -510,8 +640,11 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initWeekDropdown();
-      document.getElementById('daily-filter-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('daily-filter-date').value = todayIso;
       document.getElementById('cfg-script-url').value = DEFAULT_SCRIPT_URL;
+      if (IS_DEMO_MODE) {
+        document.getElementById('demo-mode-pill').classList.remove('hidden');
+      }
       updateTeacherUI();
       refreshSystem();
       setInterval(() => {
@@ -533,14 +666,89 @@
     async function callApi(payload) {
       const url = localStorage.getItem('LAB1204_SCRIPT_URL') || DEFAULT_SCRIPT_URL;
       if (!url || url.includes('YOUR_SCRIPT_ID')) {
-        showToast('⚠️ กรุณาตั้งค่า Web App URL ในเมนูเข้าสู่ระบบครู (รหัสเริ่มต้น admin@khongkaram.ac.th / 123456)');
-        return { status: 'error', message: 'ยังไม่ได้ตั้งค่า Web App URL' };
+        return handleDemoApi(payload);
       }
       const res = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(payload)
       });
       return await res.json();
+    }
+
+    function handleDemoApi(payload) {
+      const act = payload.action;
+      if (act === 'getSystemState') {
+        return buildDemoSystemState();
+      }
+      if (act === 'loginTeacher') {
+        if (payload.pin === '123456') {
+          return {
+            status: 'success',
+            user: { email: payload.username, name: 'ครูศรันย์กรณ์ อาจณรงค์กร (ครูจ๊ะเอ๋)', role: 'Admin' }
+          };
+        }
+        return { status: 'error', message: 'รหัส PIN ไม่ถูกต้อง (ทดลองใช้ 123456)' };
+      }
+      if (act === 'checkStudent') {
+        const sid = String(payload.studentId || '').trim();
+        const found = demoStore.students.find(s => s.studentId === sid);
+        if (found) return { status: 'success', student: found };
+        return {
+          status: 'success',
+          student: { studentId: sid, fullName: `นักเรียนทดสอบ รหัส ${sid}`, classroom: demoStore.classStatus.classroom || 'ม.2/1' }
+        };
+      }
+      if (act === 'checkInStudent') {
+        const sid = String(payload.studentId || '').trim();
+        const pcNo = Number(payload.pcNo);
+        const st = demoStore.students.find(s => s.studentId === sid) || {
+          studentId: sid,
+          fullName: `นักเรียนทดสอบ รหัส ${sid}`,
+          classroom: demoStore.classStatus.classroom || 'ม.2/1'
+        };
+        const nowTime = new Date().toLocaleTimeString('th-TH', { hour12: false });
+        demoStore.logs.push({
+          date: todayIso,
+          pcNo: pcNo,
+          studentId: st.studentId,
+          studentName: st.fullName,
+          classroom: st.classroom,
+          subjectCode: demoStore.classStatus.subjectCode,
+          period: demoStore.classStatus.period,
+          week: demoStore.classStatus.week,
+          checkIn: nowTime,
+          status: 'กำลังใช้งาน',
+          photoUrl: payload.photoBase64 || createDemoAvatarSvg('#0ea5e9', '#1e3a8a', '#0f172a', `PC-${String(pcNo).padStart(2, '0')}`)
+        });
+        return { status: 'success', message: `จองเครื่องที่ ${pcNo} สำเร็จ! (${st.fullName})` };
+      }
+      if (act === 'openClassSession') {
+        demoStore.classStatus = {
+          isOpen: true,
+          subjectCode: payload.subjectCode,
+          subjectName: payload.subjectName || 'รายวิชาคอมพิวเตอร์',
+          classroom: payload.classroom || 'ม.2/1',
+          period: payload.period || 'คาบ 1',
+          week: payload.week || '1',
+          teacherEmail: payload.teacherEmail,
+          openTime: new Date().toLocaleTimeString('th-TH', { hour12: false })
+        };
+        return { status: 'success', message: 'เปิดคลาสเรียนเรียบร้อยแล้ว' };
+      }
+      if (act === 'closeClassSession') {
+        demoStore.classStatus.isOpen = false;
+        demoStore.logs.forEach(l => {
+          if (l.status === 'กำลังใช้งาน') l.status = 'จบคลาสแล้ว';
+        });
+        return { status: 'success', message: 'ปิดคลาสเรียนและลงเวลาออกให้นักเรียนทุกคนแล้ว' };
+      }
+      if (act === 'movePhotoRootFolder') {
+        return { status: 'success', message: 'ย้ายโฟลเดอร์หลักเก็บรูปภาพเรียบร้อยแล้ว (โหมดทดสอบ)' };
+      }
+      if (act === 'setCustomPhotoRootFolder') {
+        return { status: 'success', message: 'เปลี่ยนโฟลเดอร์หลักใหม่เรียบร้อยแล้ว (โหมดทดสอบ)' };
+      }
+      return { status: 'success', message: 'ดำเนินการเรียบร้อยแล้ว' };
     }
 
     async function refreshSystem() {
@@ -580,7 +788,7 @@
         badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white';
         badge.textContent = '🟢 เปิดให้ลงทะเบียนเข้าใช้งาน';
         title.textContent = `${st.subjectCode} ${st.subjectName} (${st.classroom})`;
-        meta.textContent = `${st.period} | สัปดาห์ที่ ${st.week} | เปิดคลาสเมื่อ: ${st.openTime}`;
+        meta.textContent = `${st.period} | สัปดาห์ที่ ${st.week} | เปิดคลาสเมื่อ: ${st.openTime} • คลิกเครื่องที่ว่างเพื่อจองที่นั่งและถ่ายภาพยืนยันตัวตน`;
         subtitle.textContent = `วิชา ${st.subjectCode} ${st.subjectName} | ชั้น ${st.classroom} | ${st.period} (สัปดาห์ที่ ${st.week})`;
       } else {
         banner.className = 'rounded-2xl p-4 border shadow-sm transition-all bg-slate-100 border-slate-300';
@@ -617,28 +825,27 @@
           const card = document.createElement('div');
 
           if (booking) {
-            // การ์ดแบบใหม่: แสดง เครื่องที่ + ป้ายห้อง + ภาพถ่ายนักเรียน + ชื่อ + รหัส + คาบ + เวลา
             const classLabel = booking.classroom && booking.classroom !== '-' ? booking.classroom : (appState.classStatus.classroom || '-');
             const periodLabel = booking.period || (appState.classStatus.period || '-');
             const timeLabel = booking.checkIn || '';
             const photoHtml = booking.photoUrl
-              ? `<img src="${booking.photoUrl}" alt="${booking.studentName}" class="pc-photo w-11 h-11 sm:w-12 sm:h-12 rounded-lg object-cover border border-emerald-400 shrink-0 bg-slate-200" />`
-              : `<div class="pc-photo w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-emerald-200/70 border border-emerald-400 flex items-center justify-center text-[10px] font-bold text-emerald-800 shrink-0">ไม่มีรูป</div>`;
+              ? `<img src="${booking.photoUrl}" alt="${booking.studentName}" class="pc-photo w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover border-2 border-emerald-400 shrink-0 bg-slate-200 shadow-xs" />`
+              : `<div class="pc-photo w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-emerald-200/70 border border-emerald-400 flex items-center justify-center text-[10px] font-bold text-emerald-800 shrink-0">ไม่มีรูป</div>`;
 
-            card.className = 'pc-card rounded-2xl border-2 border-emerald-400 bg-emerald-50/70 p-2 sm:p-2.5 shadow-sm flex flex-col justify-between transition hover:shadow-md cursor-pointer';
+            card.className = 'pc-card rounded-2xl border-2 border-emerald-400 bg-emerald-50/75 p-2.5 shadow-sm flex flex-col justify-between transition hover:shadow-md hover:border-emerald-500 cursor-pointer';
             card.innerHTML = `
-              <div class="flex items-center justify-between gap-1 border-b border-emerald-200/80 pb-1">
-                <span class="pc-title font-extrabold text-xs sm:text-sm text-slate-900">เครื่องที่ ${pcNum}</span>
+              <div class="flex items-center justify-between gap-1 border-b border-emerald-200/90 pb-1">
+                <span class="pc-title font-extrabold text-sm sm:text-base text-slate-900">เครื่องที่ ${pcNum}</span>
                 <span class="pc-class-badge px-2 py-0.5 rounded-md bg-emerald-700 text-white font-bold text-[10px] sm:text-xs">${classLabel}</span>
               </div>
-              <div class="flex items-center gap-2 py-1.5">
+              <div class="flex items-center gap-2.5 py-1.5">
                 ${photoHtml}
                 <div class="min-w-0 flex-1 text-left">
                   <div class="pc-student font-extrabold text-xs sm:text-sm text-slate-900 leading-tight line-clamp-2">${booking.studentName}</div>
-                  <div class="pc-sid text-[11px] font-medium text-slate-600 mt-0.5">${booking.studentId}</div>
+                  <div class="pc-sid text-[11px] font-semibold text-slate-600 mt-0.5">${booking.studentId}</div>
                 </div>
               </div>
-              <div class="pc-footer flex items-center justify-between text-[10px] sm:text-[11px] text-slate-600 border-t border-emerald-200/80 pt-1">
+              <div class="pc-footer flex items-center justify-between text-[10px] sm:text-[11px] font-medium text-slate-600 border-t border-emerald-200/90 pt-1">
                 <span>${periodLabel}</span>
                 <span class="font-mono">${timeLabel}</span>
               </div>
@@ -647,20 +854,20 @@
               card.onclick = () => showLargePhoto(booking.photoUrl, `เครื่องที่ ${pcNum} : ${booking.studentName} (${booking.studentId}) ห้อง ${classLabel}`);
             }
           } else if (isBroken) {
-            card.className = 'pc-card rounded-2xl border-2 border-rose-300 bg-rose-50 p-2 sm:p-2.5 min-h-[104px] flex flex-col justify-between text-center text-rose-700';
+            card.className = 'pc-card rounded-2xl border-2 border-rose-300 bg-rose-50 p-2.5 min-h-[116px] flex flex-col justify-between text-center text-rose-700';
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-rose-200 pb-1">
-                <span class="pc-title font-extrabold text-xs sm:text-sm">เครื่องที่ ${pcNum}</span>
+                <span class="pc-title font-extrabold text-sm">เครื่องที่ ${pcNum}</span>
                 <span class="text-[10px] opacity-75">${pc.assetCode}</span>
               </div>
               <div class="font-bold text-xs sm:text-sm my-auto">⚠️ ${pc.status}</div>
               <div class="text-[10px] text-rose-500">งดใช้งานชั่วคราว</div>
             `;
           } else if (isOpen) {
-            card.className = 'pc-card rounded-2xl border-2 border-sky-300 bg-white hover:bg-sky-50 hover:border-sky-500 p-2 sm:p-2.5 min-h-[104px] flex flex-col justify-between text-center cursor-pointer transition shadow-sm';
+            card.className = 'pc-card rounded-2xl border-2 border-sky-300 bg-white hover:bg-sky-50 hover:border-sky-500 p-2.5 min-h-[116px] flex flex-col justify-between text-center cursor-pointer transition shadow-sm';
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-slate-100 pb-1">
-                <span class="pc-title font-extrabold text-xs sm:text-sm text-slate-800">เครื่องที่ ${pcNum}</span>
+                <span class="pc-title font-extrabold text-sm text-slate-800">เครื่องที่ ${pcNum}</span>
                 <span class="text-[10px] text-slate-400">${pc.assetCode}</span>
               </div>
               <div class="font-bold text-xs sm:text-sm text-sky-700 my-auto">ว่าง (คลิกจองเครื่อง)</div>
@@ -668,10 +875,10 @@
             `;
             card.onclick = () => openCheckinModal(pcNum);
           } else {
-            card.className = 'pc-card rounded-2xl border-2 border-slate-200 bg-slate-50 p-2 sm:p-2.5 min-h-[104px] flex flex-col justify-between text-center text-slate-400';
+            card.className = 'pc-card rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 min-h-[116px] flex flex-col justify-between text-center text-slate-400';
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-slate-200/60 pb-1">
-                <span class="pc-title font-extrabold text-xs sm:text-sm">เครื่องที่ ${pcNum}</span>
+                <span class="pc-title font-extrabold text-sm">เครื่องที่ ${pcNum}</span>
                 <span class="text-[10px] opacity-70">${pc.assetCode}</span>
               </div>
               <div class="font-bold text-xs sm:text-sm my-auto">ปิดคลาส</div>
@@ -711,13 +918,9 @@
       const sid = document.getElementById('checkin-student-id').value.trim();
       if (!sid) return showToast('กรุณากรอกรหัสนักเรียน');
 
-      const localFound = appState.students.find(s => s.studentId === sid);
-      let student = localFound;
-      if (!student) {
-        const res = await callApi({ action: 'checkStudent', studentId: sid });
-        if (res.status !== 'success') return showToast('❌ ' + res.message);
-        student = res.student;
-      }
+      const res = await callApi({ action: 'checkStudent', studentId: sid });
+      if (res.status !== 'success') return showToast('❌ ' + res.message);
+      const student = res.student;
 
       document.getElementById('verified-student-name').textContent = student.fullName;
       document.getElementById('verified-student-class').textContent = `รหัส ${student.studentId} | ห้อง ${student.classroom}`;
@@ -731,8 +934,7 @@
         webcamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 480, height: 360 } });
         document.getElementById('webcam-video').srcObject = webcamStream;
       } catch (err) {
-        showToast('⚠️ ไม่สามารถเปิดกล้องได้ กรุณาอนุญาตการใช้กล้องบนเบราว์เซอร์');
-        document.getElementById('btn-confirm-booking').disabled = false;
+        showToast('⚠️ ไม่พบกล้องเว็บแคม กดปุ่ม "ถ่ายภาพยืนยันตัวตน" เพื่อสร้างภาพยืนยันจำลอง');
       }
     }
 
@@ -748,8 +950,14 @@
       const canvas = document.getElementById('webcam-canvas');
       canvas.width = video.videoWidth || 480;
       canvas.height = video.videoHeight || 360;
-      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-      capturedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+      const ctx = canvas.getContext('2d');
+
+      if (webcamStream && video.videoWidth > 0) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        capturedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+      } else {
+        capturedImageBase64 = createDemoAvatarSvg('#0284c7', '#1e3a8a', '#0f172a', `PC-${String(selectedPcNo).padStart(2, '0')}`);
+      }
 
       const preview = document.getElementById('captured-preview');
       preview.src = capturedImageBase64;
@@ -933,7 +1141,6 @@
     }
 
     async function handleCloseClass() {
-      if (!confirm('ยืนยันการปิดคลาสเรียน และบันทึกเวลาออกให้นักเรียนทุกคนหรือไม่?')) return;
       const res = await callApi({ action: 'closeClassSession' });
       if (res.status === 'success') {
         showToast('✅ ' + res.message);
@@ -963,7 +1170,7 @@
         const log = byPc[i];
         const card = document.createElement('div');
         card.className = log
-          ? 'rounded-xl border-2 border-emerald-400 bg-emerald-50/60 p-2 shadow-sm space-y-1'
+          ? 'rounded-xl border-2 border-emerald-400 bg-emerald-50/75 p-2 shadow-sm space-y-1'
           : 'rounded-xl border border-slate-200 bg-slate-100/70 p-2 text-center text-slate-400 flex flex-col justify-center min-h-[115px]';
 
         if (log) {

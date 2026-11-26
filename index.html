@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  
- <!-- เริ่มต้นส่วนตั้งค่า PWA / ไอคอนบนมือถือ -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#1a73e8">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Fix1204">
-    <link rel="apple-touch-icon" href="./icon-192x192.png">
-  <!-- สิ้นสุดส่วนตั้งค่า PWA / ไอคอนบนมือถือ -->
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ระบบลงชื่อเข้าใช้งานห้องคอมพิวเตอร์ - โรงเรียนคงคาราม</title>
@@ -1078,8 +1067,8 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     const isGasEnvironment = (typeof google !== 'undefined' && google.script && google.script.run);
-    const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQVlxdl61hyuIFUkj2dTdqgw0WbKWjB0dkFzjHZXfMFuzpDmwoTvIQLkmegoZds_wj/exec';
-    const DEFAULT_SHEET_ID = '12N6-QGfEKBaJUslxzHnBoNCumDH34hWqa_KkcG501qs';
+    const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzifQz4TUPG1FEmNaCEDRne7OPml2BN1xGMlWEUKJOJ969JIWaL_W8VTRR47ulhnIud/exec';
+    const DEFAULT_SHEET_ID = '13O3dys_5hE2P1TEUeZhC_jNz4XD4Mz0wBbBJnLH7wRQ';
     const AUTO_CLOSE_MINUTES = 30;
 
     function getActiveScriptUrl() {
@@ -1467,14 +1456,15 @@
 
       if (remSec <= 0) {
         if (bannerCd) {
-          bannerCd.textContent = 'หมดเวลา 30 นาที • กำลังปิดคลาส...';
+          bannerCd.textContent = 'ครบเวลาลงชื่อ 30 นาทีแล้ว';
           bannerCd.classList.remove('hidden');
         }
         if (teacherCd) {
           teacherCd.textContent = 'ครบกำหนด 30 นาทีแล้ว • กำลังปิดคลาสอัตโนมัติ...';
           teacherCd.classList.remove('hidden');
         }
-        if (!autoCloseTriggeredInClient) {
+        // สั่งปิดคลาสอัตโนมัติเฉพาะเมื่อครูผู้สอนเปิดหน้าจอควบคุมค้างไว้เท่านั้น (ฝั่งนักเรียนอ่านอย่างเดียว)
+        if (appState.currentTeacher && !autoCloseTriggeredInClient) {
           autoCloseTriggeredInClient = true;
           handleCloseClass(true);
         }

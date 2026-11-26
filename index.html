@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ระบบเข้าใช้งานห้องคอมพิวเตอร์ ห้อง 1204 - โรงเรียนคงคาราม</title>
+  <title>ระบบลงชื่อเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์ - โรงเรียนคงคาราม</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -26,14 +26,6 @@
       .no-print {
         display: none !important;
       }
-      body.print-landscape {
-        page: landscapePage;
-      }
-      @page landscapePage {
-        size: A4 landscape;
-        margin: 6mm;
-      }
-      /* จัดผัง 40 เครื่องพร้อมรูปถ่ายให้พอดี 1 หน้ากระดาษ A4 แนวตั้ง */
       #seating-print-area {
         box-shadow: none !important;
         border: 1px solid #cbd5e1 !important;
@@ -92,25 +84,23 @@
           1204
         </div>
         <div>
-          <div class="flex items-center gap-2 flex-wrap">
-            <h1 class="text-base sm:text-lg font-bold leading-tight">ระบบเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์</h1>
-            <span id="demo-mode-pill" class="hidden px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold tracking-wide">
-              DEMO PREVIEW MODE
-            </span>
-          </div>
-          <p class="text-xs text-slate-300">ห้อง 1204 โรงเรียนคงคาราม จ.เพชรบุรี</p>
+          <h1 class="text-base sm:text-lg font-bold leading-tight">ระบบลงชื่อเข้าใช้งานห้องปฏิบัติการคอมพิวเตอร์</h1>
+          <p class="text-xs text-slate-300">ห้อง 1204 โรงเรียนคงคาราม อำเภอเมืองเพชรบุรี จังหวัดเพชรบุรี</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-2 flex-wrap">
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+        <button onclick="showView('seating')" id="nav-seating" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-semibold border border-slate-700 transition">
+          🖥️ หน้าผังห้องเรียน
+        </button>
         <button onclick="refreshSystem()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm font-medium border border-slate-700 transition">
           🔄 รีเฟรช
         </button>
-        <button onclick="printSeatingMap()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs sm:text-sm font-semibold shadow transition">
-          🖨️ พิมพ์ผัง A4
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs sm:text-sm font-semibold shadow transition">
+          🖨️ พิมพ์ผังการจอง (A4)
         </button>
         <button id="btn-teacher-login" onclick="openLoginModal()" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-xs sm:text-sm font-semibold shadow transition">
-          🔐 เข้าสู่ระบบครู
+          🔐 สำหรับครู / ผู้ดูแล
         </button>
         <button id="btn-teacher-logout" onclick="logoutTeacher()" class="hidden px-3.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-xs sm:text-sm font-semibold shadow transition">
           🚪 ออกจากระบบ
@@ -154,21 +144,27 @@
           <span class="text-xs font-semibold text-sky-600 uppercase tracking-wider">Teacher & Admin Control Panel</span>
           <h2 id="teacher-welcome" class="text-base sm:text-lg font-bold text-slate-800">ยินดีต้อนรับคุณครู</h2>
         </div>
-        <div class="flex flex-wrap gap-1.5">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="openChangePinModal()" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-amber-100 text-amber-800 hover:bg-amber-200">
+            🔑 เปลี่ยนรหัส PIN
+          </button>
           <button onclick="switchTeacherTab('class')" id="tab-btn-class" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-sky-600 text-white">
-            🎓 เปิด-ปิดคลาส
+            🎓 เปิด-ปิดคลาส & ตารางสอน
           </button>
           <button onclick="switchTeacherTab('reports')" id="tab-btn-reports" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
-            📊 รายงาน 20 สัปดาห์ & ผังรายวัน
+            📊 รายงาน 20 สัปดาห์ & ประวัติ
+          </button>
+          <button onclick="switchTeacherTab('students')" id="tab-btn-students" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
+            👨‍🎓 รายชื่อนักเรียน & ครุภัณฑ์
           </button>
           <button onclick="switchTeacherTab('settings')" id="tab-btn-settings" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
-            ⚙️ ตั้งค่า & โฟลเดอร์ Drive
+            ⚙️ สำรอง / กู้คืน / ตั้งค่า
           </button>
         </div>
       </div>
 
-      <!-- แท็บ 1: เปิด-ปิดคลาสเรียน -->
-      <div id="teacher-tab-class" class="space-y-3">
+      <!-- แท็บ 1: เปิด-ปิดคลาสเรียน & เพิ่มตารางสอน -->
+      <div id="teacher-tab-class" class="space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           <div class="lg:col-span-2">
             <label class="block text-xs font-semibold text-slate-600 mb-1">เลือกจากตารางเรียน / รายวิชา</label>
@@ -178,15 +174,15 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">รหัสวิชา</label>
-            <input id="open-subject-code" type="text" placeholder="เช่น ว22103" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+            <input id="open-subject-code" type="text" placeholder="เช่น ว31105" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">ชื่อวิชา</label>
-            <input id="open-subject-name" type="text" placeholder="เช่น วิทยาการคำนวณ 2" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+            <input id="open-subject-name" type="text" placeholder="เช่น วิทยาการคำนวณ 1" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">ระดับชั้น / ห้องเรียน</label>
-            <input id="open-classroom" type="text" placeholder="เช่น ม.2/1" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
+            <input id="open-classroom" type="text" placeholder="เช่น ม.4/1" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" />
           </div>
         </div>
 
@@ -218,6 +214,35 @@
             </button>
           </div>
         </div>
+
+        <!-- เพิ่มรายการตารางสอนใหม่ -->
+        <details class="bg-slate-50 rounded-xl p-3 border border-slate-200">
+          <summary class="text-xs font-bold text-slate-700 cursor-pointer">➕ เพิ่มรายวิชาเข้าตารางสอน (ตารางเรียน_รายวิชา)</summary>
+          <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 mt-3">
+            <select id="new-sched-day" class="rounded-lg border border-slate-300 px-2 py-1.5 text-xs bg-white">
+              <option value="จันทร์">จันทร์</option>
+              <option value="อังคาร">อังคาร</option>
+              <option value="พุธ">พุธ</option>
+              <option value="พฤหัสบดี">พฤหัสบดี</option>
+              <option value="ศุกร์">ศุกร์</option>
+            </select>
+            <select id="new-sched-period" class="rounded-lg border border-slate-300 px-2 py-1.5 text-xs bg-white">
+              <option value="คาบ 1">คาบ 1</option>
+              <option value="คาบ 2">คาบ 2</option>
+              <option value="คาบ 3">คาบ 3</option>
+              <option value="คาบ 4">คาบ 4</option>
+              <option value="คาบ 5">คาบ 5</option>
+              <option value="คาบ 6">คาบ 6</option>
+              <option value="คาบ 7">คาบ 7</option>
+              <option value="คาบ 8">คาบ 8</option>
+              <option value="คาบ 9">คาบ 9</option>
+            </select>
+            <input id="new-sched-code" type="text" placeholder="รหัสวิชา" class="rounded-lg border border-slate-300 px-2 py-1.5 text-xs bg-white" />
+            <input id="new-sched-name" type="text" placeholder="ชื่อวิชา" class="rounded-lg border border-slate-300 px-2 py-1.5 text-xs bg-white" />
+            <input id="new-sched-class" type="text" placeholder="ห้องเรียน (เช่น ม.4/1)" class="rounded-lg border border-slate-300 px-2 py-1.5 text-xs bg-white" />
+            <button onclick="handleAddScheduleItem()" class="rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold py-1.5">บันทึกตาราง</button>
+          </div>
+        </details>
       </div>
 
       <!-- แท็บ 2: รายงาน 20 สัปดาห์ & ผังรายวันพร้อมรูปถ่าย -->
@@ -322,7 +347,36 @@
         </div>
       </div>
 
-      <!-- แท็บ 3: ตั้งค่า & จัดการโฟลเดอร์ Google Drive -->
+      <!-- แท็บ 3: รายชื่อนักเรียน & จัดการครุภัณฑ์ -->
+      <div id="teacher-tab-students" class="hidden space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
+            <h3 class="font-bold text-slate-800 text-sm">👨‍🎓 นำเข้ารายชื่อนักเรียน (วางจาก Excel / CSV)</h3>
+            <p class="text-xs text-slate-500">รูปแบบ: รหัสประจำตัว, คำนำหน้า, ชื่อ, นามสกุล, ระดับชั้น/ห้องเรียน (1 บรรทัดต่อ 1 คน)</p>
+            <textarea id="batch-students-input" rows="4" placeholder="66001,ด.ช.,กิตติพงศ์,รักเรียน,ม.4/1" class="w-full rounded-xl border border-slate-300 p-2 text-xs font-mono bg-white"></textarea>
+            <button onclick="handleImportStudents()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold">
+              ⬆️ นำเข้าข้อมูลนักเรียน
+            </button>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
+            <h3 class="font-bold text-slate-800 text-sm">🖥️ อัปเดตสถานะเครื่องคอมพิวเตอร์ / ครุภัณฑ์</h3>
+            <div class="flex gap-2">
+              <select id="asset-pc-select" class="rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white"></select>
+              <select id="asset-status-select" class="rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white">
+                <option value="พร้อมใช้งาน">พร้อมใช้งาน</option>
+                <option value="ชำรุด">ชำรุด</option>
+                <option value="กำลังซ่อมบำรุง">กำลังซ่อมบำรุง</option>
+              </select>
+              <button onclick="handleUpdateComputerStatus()" class="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold">บันทึก</button>
+            </div>
+            <button onclick="handleSync40Computers()" class="mt-2 px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold">
+              🔄 ซิงค์ครุภัณฑ์ PC-01 ถึง PC-40 ลงชีต
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- แท็บ 4: สำรอง / กู้คืน / ตั้งค่า & จัดการโฟลเดอร์ Google Drive -->
       <div id="teacher-tab-settings" class="hidden space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
@@ -335,19 +389,24 @@
               <label class="block text-xs font-semibold text-slate-600 mb-1">Google Spreadsheet ID หรือลิงก์ชีต</label>
               <input id="cfg-sheet-id" type="text" placeholder="วาง ID หรือ URL ของ Google Sheets" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white" />
             </div>
-            <button onclick="saveSystemSettings()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
-              💾 บันทึกการตั้งค่าการเชื่อมต่อ
-            </button>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="handleTestSheetConnection()" class="px-3 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold">
+                🔌 ทดสอบการเชื่อมต่อ
+              </button>
+              <button onclick="saveSystemSettings()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
+                💾 บันทึกการตั้งค่าการเชื่อมต่อ
+              </button>
+            </div>
           </div>
 
           <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200 space-y-3">
             <div class="flex items-center justify-between gap-2">
               <h3 class="font-bold text-slate-800 text-sm">📁 จัดการโฟลเดอร์หลักเก็บรูปภาพ (Google Drive)</h3>
-              <a id="current-photo-folder-link" href="https://drive.google.com" target="_blank" class="text-xs font-bold text-sky-600 hover:underline">
+              <a id="current-photo-folder-link" href="#" target="_blank" class="text-xs font-bold text-sky-600 hover:underline">
                 เปิดโฟลเดอร์ใน Drive ↗
               </a>
             </div>
-            <p id="current-photo-folder-name" class="text-xs text-slate-600">โฟลเดอร์ปัจจุบัน: รูปภาพยืนยันตัวตน_ห้องคอมพิวเตอร์</p>
+            <p id="current-photo-folder-name" class="text-xs text-slate-600">โฟลเดอร์ปัจจุบัน: ภาพถ่ายเข้าใช้งานห้องคอมพิวเตอร์_คงคาราม</p>
             <div>
               <label class="block text-xs font-semibold text-slate-600 mb-1">วางลิงก์หรือ Folder ID ปลายทางใน Google Drive</label>
               <input id="drive-target-folder-input" type="text" placeholder="วาง URL โฟลเดอร์ปลายทาง หรือเว้นว่างเพื่อย้ายไป My Drive" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs bg-white" />
@@ -360,6 +419,21 @@
                 🔄 เปลี่ยนเป็นโฟลเดอร์หลักใหม่
               </button>
             </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm">💾 สำรองข้อมูลฐานข้อมูล (Backup Google Sheets)</h3>
+            <p class="text-xs text-slate-500">สำรองไฟล์ Google Sheets ทั้งหมดเก็บไว้ในโฟลเดอร์ Backup บน Google Drive</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="handleBackupNow()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
+              📦 สำรองข้อมูลทันที
+            </button>
+            <button onclick="handleResetSemester()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold">
+              🗑️ สำรอง & รีเซ็ตภาคเรียนใหม่
+            </button>
           </div>
         </div>
       </div>
@@ -419,7 +493,7 @@
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">กรอกรหัสนักเรียน (กด Enter เพื่อตรวจสอบ)</label>
           <div class="flex gap-2">
-            <input id="checkin-student-id" type="text" inputmode="numeric" placeholder="ลองพิมพ์ 23548, 23564 หรือ 23571"
+            <input id="checkin-student-id" type="text" inputmode="numeric" placeholder="เช่น 23548"
               onkeydown="if(event.key==='Enter'){event.preventDefault(); verifyStudentBeforeCapture();}"
               class="flex-1 rounded-xl border border-slate-300 px-3 py-2 text-base font-bold" />
             <button onclick="verifyStudentBeforeCapture()" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm">
@@ -457,7 +531,7 @@
     </div>
   </div>
 
-  <!-- Modal 2: เข้าสู่ระบบครู (รองรับปุ่ม Enter เต็มรูปแบบ) -->
+  <!-- Modal 2: เข้าสู่ระบบครู / ผู้ดูแลระบบ (รองรับปุ่ม Enter เต็มรูปแบบ) -->
   <div id="modal-teacher-login" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b pb-2">
@@ -466,14 +540,14 @@
       </div>
       <form onsubmit="handleTeacherLoginSubmit(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">อีเมล / ชื่อผู้ใช้</label>
-          <input id="login-username" type="text" placeholder="admin@khongkaram.ac.th" value="admin@khongkaram.ac.th"
+          <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผู้ใช้ / อีเมล</label>
+          <input id="login-username" type="text" placeholder="Teacher หรือ admin@khongkaram.ac.th"
             onkeydown="if(event.key==='Enter' && !document.getElementById('login-pin').value){event.preventDefault(); document.getElementById('login-pin').focus();}"
             class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">รหัส PIN / รหัสผ่าน</label>
-          <input id="login-pin" type="password" placeholder="••••••" value="123456"
+          <input id="login-pin" type="password" placeholder="••••••"
             class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
         </div>
         <button type="submit" class="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow">
@@ -483,7 +557,28 @@
     </div>
   </div>
 
-  <!-- Modal 3: ขยายดูรูปภาพยืนยันตัวตน -->
+  <!-- Modal 3: เปลี่ยนรหัส PIN -->
+  <div id="modal-change-pin" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b pb-2">
+        <h3 class="font-bold text-base text-slate-800">🔑 เปลี่ยนรหัส PIN / รหัสผ่าน</h3>
+        <button type="button" onclick="document.getElementById('modal-change-pin').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
+      </div>
+      <form onsubmit="handleChangePinSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">รหัส PIN เดิม</label>
+          <input id="old-pin-input" type="password" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">รหัส PIN ใหม่</label>
+          <input id="new-pin-input" type="password" class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm" required />
+        </div>
+        <button type="submit" class="w-full py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm">บันทึกรหัส PIN ใหม่</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: ขยายดูรูปภาพยืนยันตัวตน -->
   <div id="modal-photo-preview" onclick="this.classList.add('hidden')" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-4 space-y-3" onclick="event.stopPropagation()">
       <img id="preview-large-img" src="" class="w-full rounded-xl object-contain max-h-[65vh] bg-slate-100 border border-slate-200" />
@@ -498,153 +593,29 @@
   <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden max-w-xs bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm font-medium"></div>
 
   <script>
-    const DEFAULT_SCRIPT_URL = localStorage.getItem('LAB1204_SCRIPT_URL') || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
-    const IS_DEMO_MODE = !DEFAULT_SCRIPT_URL || DEFAULT_SCRIPT_URL.includes('YOUR_SCRIPT_ID');
+    const INITIAL_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziICCX2G9Ba1nm81wGEcp2fTW0wM4N3LmVI88eWOas2R3gvVBD-0V7Sny3AAQueEKevg/exec';
+    const INITIAL_SHEET_ID = '1aUUddJgotKhQ2tlvAeaHQ3j1afFRGQOorNIrvzkDiIg';
+    const DEFAULT_SCRIPT_URL = localStorage.getItem('LAB1204_SCRIPT_URL') || INITIAL_SCRIPT_URL;
 
-    // สร้างภาพจำลองใบหน้านักเรียนแบบคมชัดด้วย SVG Data URI สำหรับโหมด Preview
-    function createDemoAvatarSvg(bgHex, shirtHex, hairHex, labelText) {
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-        <rect width="120" height="120" fill="${bgHex}"/>
-        <rect x="8" y="8" width="104" height="104" rx="14" fill="#ffffff" fill-opacity="0.18"/>
-        <circle cx="60" cy="48" r="22" fill="#fed7aa"/>
-        <path d="M38 45 C38 26, 82 26, 82 45 C78 34, 42 34, 38 45 Z" fill="${hairHex}"/>
-        <circle cx="52" cy="48" r="2.5" fill="#1e293b"/>
-        <circle cx="68" cy="48" r="2.5" fill="#1e293b"/>
-        <path d="M54 57 Q60 62 66 57" stroke="#9a3412" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <path d="M26 115 C26 84, 94 84, 94 115 Z" fill="${shirtHex}"/>
-        <text x="60" y="110" font-family="sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">${labelText}</text>
-      </svg>`;
-      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-    }
-
-    // ฐานข้อมูลจำลองในตัวสำหรับการทดลองใช้งานบน Preview ทันที
-    const todayIso = new Date().toISOString().split('T')[0];
-    let demoStore = {
-      classStatus: {
-        isOpen: true,
-        subjectCode: 'ว22103',
-        subjectName: 'วิทยาการคำนวณ 2',
-        classroom: 'ม.2/1',
-        period: 'คาบ 1',
-        week: '1',
-        teacherEmail: 'admin@khongkaram.ac.th',
-        openTime: '08:30:00'
-      },
-      students: [
-        { studentId: '23548', fullName: 'ด.ช.กัณฑ์อเนก พราหมณ์สังข์', classroom: 'ม.2/1' },
-        { studentId: '23564', fullName: 'ด.ช.จีรพัฒน์ อินทร์เนตร', classroom: 'ม.2/1' },
-        { studentId: '23571', fullName: 'ด.ช.ชยพล แสงหิรัญ', classroom: 'ม.2/1' },
-        { studentId: '23597', fullName: 'ด.ช.ณัฐวัฒน์ สร้อยทอง', classroom: 'ม.2/1' },
-        { studentId: '23607', fullName: 'ด.ช.ถิรวัฒน์ กุศล', classroom: 'ม.2/1' },
-        { studentId: '23612', fullName: 'ด.ช.ธนกฤต เลิศทวีวัฒนา', classroom: 'ม.2/1' },
-        { studentId: '23627', fullName: 'ด.ช.ธนากร เหลี่ยมวงษ์', classroom: 'ม.2/1' },
-        { studentId: '23671', fullName: 'ด.ช.พงศพัศ หน่ายสุวรรณ', classroom: 'ม.2/1' },
-        { studentId: '1001', fullName: 'น.ส.ศรันย์ ทดสอบ', classroom: 'ม.4/12' }
-      ],
-      schedules: [
-        { day: 'จันทร์', period: 'คาบ 1', subjectCode: 'ว22103', subjectName: 'วิทยาการคำนวณ 2', classroom: 'ม.2/1' },
-        { day: 'จันทร์', period: 'คาบ 3', subjectCode: 'ว31105', subjectName: 'วิทยาการคำนวณ 1', classroom: 'ม.4/12' },
-        { day: 'อังคาร', period: 'คาบ 2', subjectCode: 'ว22103', subjectName: 'วิทยาการคำนวณ 2', classroom: 'ม.2/2' }
-      ],
-      brokenPcs: { 14: 'ชำรุด (จอไม่ติด)', 29: 'ส่งซ่อม' },
-      logs: [
-        {
-          date: todayIso,
-          pcNo: 9,
-          studentId: '1001',
-          studentName: 'น.ส.ศรันย์ ทดสอบ',
-          classroom: 'ม.4/12',
-          subjectCode: 'ว22103',
-          period: 'คาบ 1',
-          week: '1',
-          checkIn: '11:41:03',
-          status: 'กำลังใช้งาน',
-          photoUrl: createDemoAvatarSvg('#0284c7', '#1e293b', '#0f172a', 'PC-09')
-        },
-        {
-          date: todayIso,
-          pcNo: 38,
-          studentId: '23548',
-          studentName: 'ด.ช.กัณฑ์อเนก พราหมณ์สังข์',
-          classroom: 'ม.2/1',
-          subjectCode: 'ว22103',
-          period: 'คาบ 1',
-          week: '1',
-          checkIn: '08:32:15',
-          status: 'กำลังใช้งาน',
-          photoUrl: createDemoAvatarSvg('#059669', '#0369a1', '#1e293b', 'PC-38')
-        },
-        {
-          date: todayIso,
-          pcNo: 35,
-          studentId: '23571',
-          studentName: 'ด.ช.ชยพล แสงหิรัญ',
-          classroom: 'ม.2/1',
-          subjectCode: 'ว22103',
-          period: 'คาบ 1',
-          week: '1',
-          checkIn: '08:33:40',
-          status: 'กำลังใช้งาน',
-          photoUrl: createDemoAvatarSvg('#7c3aed', '#1d4ed8', '#090d16', 'PC-35')
-        },
-        {
-          date: todayIso,
-          pcNo: 24,
-          studentId: '23671',
-          studentName: 'ด.ช.พงศพัศ หน่ายสุวรรณ',
-          classroom: 'ม.2/1',
-          subjectCode: 'ว22103',
-          period: 'คาบ 1',
-          week: '1',
-          checkIn: '08:34:12',
-          status: 'กำลังใช้งาน',
-          photoUrl: createDemoAvatarSvg('#d97706', '#0f766e', '#1e293b', 'PC-24')
-        }
-      ],
-      meta: {
-        spreadsheetId: '13O3dys_5hE2P1TEUeZhC_jNz4XD4Mz0wBbBJnLH7wRQ',
-        photoFolderName: 'ภาพถ่ายเข้าใช้งานห้องคอมพิวเตอร์_คงคาราม',
-        photoFolderUrl: 'https://drive.google.com'
-      }
+    let appState = {
+      activeSession: { status: 'CLOSED' },
+      computers: [],
+      activeBookings: {},
+      schedules: [],
+      students: [],
+      logs: []
     };
-
-    function buildDemoSystemState() {
-      const computers = [];
-      for (let i = 1; i <= 40; i++) {
-        const activeBooking = demoStore.classStatus.isOpen
-          ? demoStore.logs.find(l => l.pcNo === i && l.status === 'กำลังใช้งาน') || null
-          : null;
-        computers.push({
-          pcNo: i,
-          assetCode: `69-15-033-${String(41 + i).padStart(3, '0')}`,
-          status: demoStore.brokenPcs[i] || 'พร้อมใช้งาน',
-          booking: activeBooking
-        });
-      }
-      return {
-        status: 'success',
-        classStatus: demoStore.classStatus,
-        computers,
-        students: demoStore.students,
-        logs: demoStore.logs,
-        schedules: demoStore.schedules,
-        meta: demoStore.meta
-      };
-    }
-
-    let appState = buildDemoSystemState();
     let currentTeacher = JSON.parse(sessionStorage.getItem('LAB1204_TEACHER') || 'null');
-    let selectedPcNo = null;
+    let selectedPcId = null;
+    let selectedPcNum = null;
     let webcamStream = null;
     let capturedImageBase64 = '';
 
     document.addEventListener('DOMContentLoaded', () => {
-      initWeekDropdown();
-      document.getElementById('daily-filter-date').value = todayIso;
+      initWeekAndPcDropdowns();
+      document.getElementById('daily-filter-date').value = new Date().toISOString().split('T')[0];
       document.getElementById('cfg-script-url').value = DEFAULT_SCRIPT_URL;
-      if (IS_DEMO_MODE) {
-        document.getElementById('demo-mode-pill').classList.remove('hidden');
-      }
+      document.getElementById('cfg-sheet-id').value = localStorage.getItem('LAB1204_SHEET_ID') || INITIAL_SHEET_ID;
       updateTeacherUI();
       refreshSystem();
       setInterval(() => {
@@ -652,7 +623,7 @@
       }, 1000);
     });
 
-    function initWeekDropdown() {
+    function initWeekAndPcDropdowns() {
       const sel = document.getElementById('open-week');
       sel.innerHTML = '';
       for (let w = 1; w <= 20; w++) {
@@ -661,110 +632,80 @@
         opt.textContent = `สัปดาห์ที่ ${w}`;
         sel.appendChild(opt);
       }
+
+      const pcSel = document.getElementById('asset-pc-select');
+      pcSel.innerHTML = '';
+      for (let i = 1; i <= 40; i++) {
+        const pcId = 'PC-' + String(i).padStart(2, '0');
+        pcSel.innerHTML += `<option value="${pcId}">เครื่องที่ ${i} (${pcId})</option>`;
+      }
     }
 
-    async function callApi(payload) {
+    // เรียกใช้งาน Google Apps Script API (รองรับทั้งรันใน Apps Script โดยตรง และรันผ่าน GitHub Pages)
+    async function callServer(action, args = []) {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        return new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler(err => reject(err))[action](...args);
+        });
+      }
+
       const url = localStorage.getItem('LAB1204_SCRIPT_URL') || DEFAULT_SCRIPT_URL;
       if (!url || url.includes('YOUR_SCRIPT_ID')) {
-        return handleDemoApi(payload);
+        showToast('⚠️ กรุณาตั้งค่า Web App URL ในเมนู สำหรับครู / ผู้ดูแล -> สำรอง / กู้คืน / ตั้งค่า');
+        return { success: false, message: 'ยังไม่ได้ตั้งค่า Web App URL' };
       }
+
       const res = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ action: action, args: args })
       });
       return await res.json();
     }
 
-    function handleDemoApi(payload) {
-      const act = payload.action;
-      if (act === 'getSystemState') {
-        return buildDemoSystemState();
+    function normalizeDriveImageUrl(url) {
+      if (!url) return '';
+      const match = String(url).match(/[-\w]{25,}/);
+      if (match && String(url).includes('drive.google.com')) {
+        return 'https://lh3.googleusercontent.com/d/' + match[0];
       }
-      if (act === 'loginTeacher') {
-        if (payload.pin === '123456') {
-          return {
-            status: 'success',
-            user: { email: payload.username, name: 'ครูศรันย์กรณ์ อาจณรงค์กร (ครูจ๊ะเอ๋)', role: 'Admin' }
-          };
-        }
-        return { status: 'error', message: 'รหัส PIN ไม่ถูกต้อง (ทดลองใช้ 123456)' };
-      }
-      if (act === 'checkStudent') {
-        const sid = String(payload.studentId || '').trim();
-        const found = demoStore.students.find(s => s.studentId === sid);
-        if (found) return { status: 'success', student: found };
-        return {
-          status: 'success',
-          student: { studentId: sid, fullName: `นักเรียนทดสอบ รหัส ${sid}`, classroom: demoStore.classStatus.classroom || 'ม.2/1' }
-        };
-      }
-      if (act === 'checkInStudent') {
-        const sid = String(payload.studentId || '').trim();
-        const pcNo = Number(payload.pcNo);
-        const st = demoStore.students.find(s => s.studentId === sid) || {
-          studentId: sid,
-          fullName: `นักเรียนทดสอบ รหัส ${sid}`,
-          classroom: demoStore.classStatus.classroom || 'ม.2/1'
-        };
-        const nowTime = new Date().toLocaleTimeString('th-TH', { hour12: false });
-        demoStore.logs.push({
-          date: todayIso,
-          pcNo: pcNo,
-          studentId: st.studentId,
-          studentName: st.fullName,
-          classroom: st.classroom,
-          subjectCode: demoStore.classStatus.subjectCode,
-          period: demoStore.classStatus.period,
-          week: demoStore.classStatus.week,
-          checkIn: nowTime,
-          status: 'กำลังใช้งาน',
-          photoUrl: payload.photoBase64 || createDemoAvatarSvg('#0ea5e9', '#1e3a8a', '#0f172a', `PC-${String(pcNo).padStart(2, '0')}`)
-        });
-        return { status: 'success', message: `จองเครื่องที่ ${pcNo} สำเร็จ! (${st.fullName})` };
-      }
-      if (act === 'openClassSession') {
-        demoStore.classStatus = {
-          isOpen: true,
-          subjectCode: payload.subjectCode,
-          subjectName: payload.subjectName || 'รายวิชาคอมพิวเตอร์',
-          classroom: payload.classroom || 'ม.2/1',
-          period: payload.period || 'คาบ 1',
-          week: payload.week || '1',
-          teacherEmail: payload.teacherEmail,
-          openTime: new Date().toLocaleTimeString('th-TH', { hour12: false })
-        };
-        return { status: 'success', message: 'เปิดคลาสเรียนเรียบร้อยแล้ว' };
-      }
-      if (act === 'closeClassSession') {
-        demoStore.classStatus.isOpen = false;
-        demoStore.logs.forEach(l => {
-          if (l.status === 'กำลังใช้งาน') l.status = 'จบคลาสแล้ว';
-        });
-        return { status: 'success', message: 'ปิดคลาสเรียนและลงเวลาออกให้นักเรียนทุกคนแล้ว' };
-      }
-      if (act === 'movePhotoRootFolder') {
-        return { status: 'success', message: 'ย้ายโฟลเดอร์หลักเก็บรูปภาพเรียบร้อยแล้ว (โหมดทดสอบ)' };
-      }
-      if (act === 'setCustomPhotoRootFolder') {
-        return { status: 'success', message: 'เปลี่ยนโฟลเดอร์หลักใหม่เรียบร้อยแล้ว (โหมดทดสอบ)' };
-      }
-      return { status: 'success', message: 'ดำเนินการเรียบร้อยแล้ว' };
+      return url;
     }
 
     async function refreshSystem() {
       try {
-        const res = await callApi({ action: 'getSystemState' });
-        if (res.status === 'success') {
-          appState = res;
+        const stateRes = await callServer('getSystemState', []);
+        if (stateRes && stateRes.success) {
+          appState.activeSession = stateRes.activeSession || { status: 'CLOSED' };
+          appState.computers = stateRes.computers || [];
+          appState.activeBookings = stateRes.activeBookings || {};
+          appState.schedules = stateRes.schedules || [];
+          appState.students = stateRes.students || [];
+
+          if (stateRes.spreadsheetId) {
+            document.getElementById('cfg-sheet-id').value = stateRes.spreadsheetId;
+          }
+
           renderBanner();
           renderSeatingGrid();
           populateTeacherDropdowns();
-          renderDailyPhotoMap();
-          generate20WeekReport();
-          if (res.meta) {
-            document.getElementById('cfg-sheet-id').value = res.meta.spreadsheetId || '';
-            document.getElementById('current-photo-folder-name').textContent = 'โฟลเดอร์ปัจจุบัน: ' + (res.meta.photoFolderName || '-');
-            document.getElementById('current-photo-folder-link').href = res.meta.photoFolderUrl || '#';
+
+          const histRes = await callServer('getUsageHistory', [{}]);
+          if (histRes && histRes.success) {
+            appState.logs = histRes.logs || [];
+            populateTeacherDropdowns();
+            renderDailyPhotoMap();
+            generate20WeekReport();
+          }
+
+          if (currentTeacher) {
+            const folderRes = await callServer('getPhotoFolderInfo', []);
+            if (folderRes && folderRes.success) {
+              document.getElementById('current-photo-folder-name').textContent =
+                `โฟลเดอร์ปัจจุบัน: ${folderRes.folderName} (อยู่ใน: ${folderRes.parentName})`;
+              document.getElementById('current-photo-folder-link').href = folderRes.folderUrl || '#';
+            }
           }
         }
       } catch (err) {
@@ -773,23 +714,24 @@
     }
 
     function renderBanner() {
-      const st = appState.classStatus;
+      const st = appState.activeSession;
       const banner = document.getElementById('class-banner');
       const badge = document.getElementById('status-badge');
       const title = document.getElementById('class-subject-title');
       const meta = document.getElementById('class-meta-detail');
       const subtitle = document.getElementById('print-class-subtitle');
 
-      const bookedCount = appState.computers.filter(c => c.booking).length;
+      const isOpen = st && st.status === 'OPEN';
+      const bookedCount = Object.keys(appState.activeBookings || {}).length;
       document.getElementById('occupied-counter').textContent = `เข้าใช้งานแล้ว: ${bookedCount} / 40 เครื่อง`;
 
-      if (st && st.isOpen) {
+      if (isOpen) {
         banner.className = 'rounded-2xl p-4 border shadow-sm transition-all bg-emerald-50 border-emerald-300';
         badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white';
         badge.textContent = '🟢 เปิดให้ลงทะเบียนเข้าใช้งาน';
-        title.textContent = `${st.subjectCode} ${st.subjectName} (${st.classroom})`;
+        title.textContent = `${st.subjectId} ${st.subjectName} (${st.classRoom})`;
         meta.textContent = `${st.period} | สัปดาห์ที่ ${st.week} | เปิดคลาสเมื่อ: ${st.openTime} • คลิกเครื่องที่ว่างเพื่อจองที่นั่งและถ่ายภาพยืนยันตัวตน`;
-        subtitle.textContent = `วิชา ${st.subjectCode} ${st.subjectName} | ชั้น ${st.classroom} | ${st.period} (สัปดาห์ที่ ${st.week})`;
+        subtitle.textContent = `วิชา ${st.subjectId} ${st.subjectName} | ชั้น ${st.classRoom} | ${st.period} (สัปดาห์ที่ ${st.week})`;
       } else {
         banner.className = 'rounded-2xl p-4 border shadow-sm transition-all bg-slate-100 border-slate-300';
         badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-600 text-white';
@@ -803,7 +745,7 @@
     function renderSeatingGrid() {
       const container = document.getElementById('pc-seating-grid');
       container.innerHTML = '';
-      const isOpen = appState.classStatus && appState.classStatus.isOpen;
+      const isOpen = appState.activeSession && appState.activeSession.status === 'OPEN';
 
       // แสดง 8 แถว (แถวละ 5 เครื่อง: 40-36, 35-31, ..., 5-1)
       for (let rowIdx = 0; rowIdx < 8; rowIdx++) {
@@ -813,23 +755,24 @@
         const startNum = 40 - (rowIdx * 5);
         for (let offset = 0; offset < 5; offset++) {
           const pcNum = startNum - offset;
-          const pc = appState.computers.find(c => c.pcNo === pcNum) || {
-            pcNo: pcNum,
+          const pcId = 'PC-' + String(pcNum).padStart(2, '0');
+          const pcInfo = appState.computers.find(c => c.pcId === pcId) || {
+            pcId: pcId,
             assetCode: `69-15-033-${String(41 + pcNum).padStart(3, '0')}`,
-            status: 'พร้อมใช้งาน',
-            booking: null
+            status: 'พร้อมใช้งาน'
           };
 
-          const isBroken = pc.status !== 'พร้อมใช้งาน';
-          const booking = pc.booking;
+          const isBroken = pcInfo.status !== 'พร้อมใช้งาน';
+          const booking = isOpen ? appState.activeBookings[pcId] : null;
           const card = document.createElement('div');
 
           if (booking) {
-            const classLabel = booking.classroom && booking.classroom !== '-' ? booking.classroom : (appState.classStatus.classroom || '-');
-            const periodLabel = booking.period || (appState.classStatus.period || '-');
-            const timeLabel = booking.checkIn || '';
-            const photoHtml = booking.photoUrl
-              ? `<img src="${booking.photoUrl}" alt="${booking.studentName}" class="pc-photo w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover border-2 border-emerald-400 shrink-0 bg-slate-200 shadow-xs" />`
+            const classLabel = booking.classRoom || appState.activeSession.classRoom || '-';
+            const periodLabel = appState.activeSession.period || '-';
+            const timeLabel = booking.checkInTime || '';
+            const imgSrc = normalizeDriveImageUrl(booking.photoUrl);
+            const photoHtml = imgSrc
+              ? `<img src="${imgSrc}" alt="${booking.studentName}" onerror="this.style.display='none'" class="pc-photo w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover border-2 border-emerald-400 shrink-0 bg-slate-200" />`
               : `<div class="pc-photo w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-emerald-200/70 border border-emerald-400 flex items-center justify-center text-[10px] font-bold text-emerald-800 shrink-0">ไม่มีรูป</div>`;
 
             card.className = 'pc-card rounded-2xl border-2 border-emerald-400 bg-emerald-50/75 p-2.5 shadow-sm flex flex-col justify-between transition hover:shadow-md hover:border-emerald-500 cursor-pointer';
@@ -850,17 +793,17 @@
                 <span class="font-mono">${timeLabel}</span>
               </div>
             `;
-            if (booking.photoUrl) {
-              card.onclick = () => showLargePhoto(booking.photoUrl, `เครื่องที่ ${pcNum} : ${booking.studentName} (${booking.studentId}) ห้อง ${classLabel}`);
+            if (imgSrc) {
+              card.onclick = () => showLargePhoto(imgSrc, `เครื่องที่ ${pcNum} : ${booking.studentName} (${booking.studentId}) ห้อง ${classLabel}`);
             }
           } else if (isBroken) {
             card.className = 'pc-card rounded-2xl border-2 border-rose-300 bg-rose-50 p-2.5 min-h-[116px] flex flex-col justify-between text-center text-rose-700';
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-rose-200 pb-1">
                 <span class="pc-title font-extrabold text-sm">เครื่องที่ ${pcNum}</span>
-                <span class="text-[10px] opacity-75">${pc.assetCode}</span>
+                <span class="text-[10px] opacity-75">${pcInfo.assetCode}</span>
               </div>
-              <div class="font-bold text-xs sm:text-sm my-auto">⚠️ ${pc.status}</div>
+              <div class="font-bold text-xs sm:text-sm my-auto">⚠️ ${pcInfo.status}</div>
               <div class="text-[10px] text-rose-500">งดใช้งานชั่วคราว</div>
             `;
           } else if (isOpen) {
@@ -868,18 +811,18 @@
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-slate-100 pb-1">
                 <span class="pc-title font-extrabold text-sm text-slate-800">เครื่องที่ ${pcNum}</span>
-                <span class="text-[10px] text-slate-400">${pc.assetCode}</span>
+                <span class="text-[10px] text-slate-400">${pcInfo.assetCode}</span>
               </div>
               <div class="font-bold text-xs sm:text-sm text-sky-700 my-auto">ว่าง (คลิกจองเครื่อง)</div>
               <div class="text-[10px] text-slate-400">พร้อมใช้งาน</div>
             `;
-            card.onclick = () => openCheckinModal(pcNum);
+            card.onclick = () => openCheckinModal(pcNum, pcId);
           } else {
             card.className = 'pc-card rounded-2xl border-2 border-slate-200 bg-slate-50 p-2.5 min-h-[116px] flex flex-col justify-between text-center text-slate-400';
             card.innerHTML = `
               <div class="flex items-center justify-between border-b border-slate-200/60 pb-1">
                 <span class="pc-title font-extrabold text-sm">เครื่องที่ ${pcNum}</span>
-                <span class="text-[10px] opacity-70">${pc.assetCode}</span>
+                <span class="text-[10px] opacity-70">${pcInfo.assetCode}</span>
               </div>
               <div class="font-bold text-xs sm:text-sm my-auto">ปิดคลาส</div>
               <div class="text-[10px] opacity-70">รอครูเปิดคลาส</div>
@@ -892,11 +835,18 @@
       }
     }
 
+    function showView(view) {
+      if (view === 'seating') {
+        document.getElementById('seating-print-area').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
     // --- ระบบจองเครื่อง & กล้องเว็บแคม ---
-    function openCheckinModal(pcNo) {
-      selectedPcNo = pcNo;
+    function openCheckinModal(pcNum, pcId) {
+      selectedPcNum = pcNum;
+      selectedPcId = pcId;
       capturedImageBase64 = '';
-      document.getElementById('checkin-modal-title').textContent = `ลงทะเบียนเข้าใช้งาน — เครื่องที่ ${pcNo}`;
+      document.getElementById('checkin-modal-title').textContent = `ลงทะเบียนเข้าใช้งาน — เครื่องที่ ${pcNum} (${pcId})`;
       document.getElementById('checkin-student-id').value = '';
       document.getElementById('student-verified-box').classList.add('hidden');
       document.getElementById('camera-section').classList.add('hidden');
@@ -918,12 +868,14 @@
       const sid = document.getElementById('checkin-student-id').value.trim();
       if (!sid) return showToast('กรุณากรอกรหัสนักเรียน');
 
-      const res = await callApi({ action: 'checkStudent', studentId: sid });
-      if (res.status !== 'success') return showToast('❌ ' + res.message);
-      const student = res.student;
+      const res = await callServer('verifyStudent', [sid]);
+      if (!res || !res.success) {
+        return showToast('❌ ' + (res ? res.message : 'ไม่พบรหัสนักเรียน'));
+      }
 
+      const student = res.student;
       document.getElementById('verified-student-name').textContent = student.fullName;
-      document.getElementById('verified-student-class').textContent = `รหัส ${student.studentId} | ห้อง ${student.classroom}`;
+      document.getElementById('verified-student-class').textContent = `รหัส ${student.studentId} | ห้อง ${student.classRoom}`;
       document.getElementById('student-verified-box').classList.remove('hidden');
       document.getElementById('camera-section').classList.remove('hidden');
       startWebcam();
@@ -934,7 +886,8 @@
         webcamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: 480, height: 360 } });
         document.getElementById('webcam-video').srcObject = webcamStream;
       } catch (err) {
-        showToast('⚠️ ไม่พบกล้องเว็บแคม กดปุ่ม "ถ่ายภาพยืนยันตัวตน" เพื่อสร้างภาพยืนยันจำลอง');
+        showToast('⚠️ ไม่สามารถเปิดกล้องเว็บแคมได้ สามารถกดยืนยันการจองได้ทันที');
+        document.getElementById('btn-confirm-booking').disabled = false;
       }
     }
 
@@ -950,14 +903,8 @@
       const canvas = document.getElementById('webcam-canvas');
       canvas.width = video.videoWidth || 480;
       canvas.height = video.videoHeight || 360;
-      const ctx = canvas.getContext('2d');
-
-      if (webcamStream && video.videoWidth > 0) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        capturedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
-      } else {
-        capturedImageBase64 = createDemoAvatarSvg('#0284c7', '#1e3a8a', '#0f172a', `PC-${String(selectedPcNo).padStart(2, '0')}`);
-      }
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      capturedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
 
       const preview = document.getElementById('captured-preview');
       preview.src = capturedImageBase64;
@@ -985,21 +932,20 @@
       btn.disabled = true;
       btn.textContent = '⏳ กำลังบันทึกข้อมูล...';
 
-      const res = await callApi({
-        action: 'checkInStudent',
+      const res = await callServer('submitStudentCheckIn', [{
         studentId: sid,
-        pcNo: selectedPcNo,
-        photoBase64: capturedImageBase64
-      });
+        pcId: selectedPcId,
+        imageBase64: capturedImageBase64
+      }]);
 
       btn.textContent = '✅ ยืนยันการจองเครื่อง';
-      if (res.status === 'success') {
+      if (res && res.success) {
         showToast('✅ ' + res.message);
         closeCheckinModal();
         refreshSystem();
       } else {
         btn.disabled = false;
-        showToast('❌ ' + res.message);
+        showToast('❌ ' + (res ? res.message : 'เกิดข้อผิดพลาดในการบันทึก'));
       }
     }
 
@@ -1015,18 +961,18 @@
 
     async function handleTeacherLoginSubmit(e) {
       e.preventDefault();
-      const username = document.getElementById('login-username').value.trim();
+      const email = document.getElementById('login-username').value.trim();
       const pin = document.getElementById('login-pin').value.trim();
-      const res = await callApi({ action: 'loginTeacher', username, pin });
-      if (res.status === 'success') {
-        currentTeacher = res.user;
+      const res = await callServer('loginTeacher', [{ mode: 'pin', email: email, pin: pin }]);
+      if (res && res.success) {
+        currentTeacher = res.teacher;
         sessionStorage.setItem('LAB1204_TEACHER', JSON.stringify(currentTeacher));
         closeLoginModal();
         updateTeacherUI();
-        renderSeatingGrid();
+        refreshSystem();
         showToast('✅ เข้าสู่ระบบสำเร็จ: ' + currentTeacher.name);
       } else {
-        showToast('❌ ' + res.message);
+        showToast('❌ ' + (res ? res.message : 'เข้าสู่ระบบไม่สำเร็จ'));
       }
     }
 
@@ -1034,8 +980,28 @@
       currentTeacher = null;
       sessionStorage.removeItem('LAB1204_TEACHER');
       updateTeacherUI();
-      renderSeatingGrid();
       showToast('ออกจากระบบเรียบร้อยแล้ว');
+    }
+
+    function openChangePinModal() {
+      document.getElementById('old-pin-input').value = '';
+      document.getElementById('new-pin-input').value = '';
+      document.getElementById('modal-change-pin').classList.remove('hidden');
+      setTimeout(() => document.getElementById('old-pin-input').focus(), 100);
+    }
+
+    async function handleChangePinSubmit(e) {
+      e.preventDefault();
+      if (!currentTeacher) return;
+      const oldPin = document.getElementById('old-pin-input').value.trim();
+      const newPin = document.getElementById('new-pin-input').value.trim();
+      const res = await callServer('updateTeacherPin', [currentTeacher.email, oldPin, newPin]);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        document.getElementById('modal-change-pin').classList.add('hidden');
+      } else {
+        showToast('❌ ' + (res ? res.message : 'เปลี่ยนรหัสไม่สำเร็จ'));
+      }
     }
 
     function updateTeacherUI() {
@@ -1055,7 +1021,7 @@
     }
 
     function switchTeacherTab(tab) {
-      ['class', 'reports', 'settings'].forEach(t => {
+      ['class', 'reports', 'students', 'settings'].forEach(t => {
         document.getElementById(`teacher-tab-${t}`).classList.toggle('hidden', t !== tab);
         const btn = document.getElementById(`tab-btn-${t}`);
         btn.className = t === tab
@@ -1070,7 +1036,7 @@
       appState.schedules.forEach((s, idx) => {
         const opt = document.createElement('option');
         opt.value = idx;
-        opt.textContent = `${s.day} ${s.period} | ${s.subjectCode} ${s.subjectName} (${s.classroom})`;
+        opt.textContent = `${s.day} ${s.period} | ${s.subjectId} ${s.subjectName} (${s.classRoom})`;
         scSel.appendChild(opt);
       });
 
@@ -1078,15 +1044,15 @@
       const classSet = new Set();
 
       appState.schedules.forEach(s => {
-        if (s.subjectCode) subjectMap.set(s.subjectCode, `${s.subjectCode} - ${s.subjectName}`);
-        if (s.classroom) classSet.add(s.classroom);
+        if (s.subjectId) subjectMap.set(s.subjectId, `${s.subjectId} - ${s.subjectName}`);
+        if (s.classRoom) classSet.add(s.classRoom);
       });
       appState.students.forEach(st => {
-        if (st.classroom) classSet.add(st.classroom);
+        if (st.classRoom) classSet.add(st.classRoom);
       });
       appState.logs.forEach(l => {
-        if (l.subjectCode && !subjectMap.has(l.subjectCode)) subjectMap.set(l.subjectCode, l.subjectCode);
-        if (l.classroom && l.classroom !== '-') classSet.add(l.classroom);
+        if (l.subjectId && !subjectMap.has(l.subjectId)) subjectMap.set(l.subjectId, l.subjectId);
+        if (l.classRoom) classSet.add(l.classRoom);
       });
 
       const repSub = document.getElementById('report-subject-select');
@@ -1109,40 +1075,62 @@
       if (oldRepCls) repCls.value = oldRepCls;
     }
 
-    function applyScheduleSelection() {
+    async function applyScheduleSelection() {
       const idx = document.getElementById('open-schedule-select').value;
       if (idx === '') return;
       const s = appState.schedules[parseInt(idx, 10)];
       if (!s) return;
-      document.getElementById('open-subject-code').value = s.subjectCode;
+      document.getElementById('open-subject-code').value = s.subjectId;
       document.getElementById('open-subject-name').value = s.subjectName;
-      document.getElementById('open-classroom').value = s.classroom;
+      document.getElementById('open-classroom').value = s.classRoom;
       document.getElementById('open-period').value = s.period;
+
+      const wkRes = await callServer('suggestNextWeek', [s.subjectId, s.classRoom]);
+      if (wkRes && wkRes.success && wkRes.suggestedWeek) {
+        document.getElementById('open-week').value = wkRes.suggestedWeek;
+      }
     }
 
     async function handleOpenClass() {
-      const payload = {
-        action: 'openClassSession',
-        subjectCode: document.getElementById('open-subject-code').value.trim(),
+      const sessionData = {
+        subjectId: document.getElementById('open-subject-code').value.trim(),
         subjectName: document.getElementById('open-subject-name').value.trim(),
-        classroom: document.getElementById('open-classroom').value.trim(),
+        classRoom: document.getElementById('open-classroom').value.trim(),
         period: document.getElementById('open-period').value,
         week: document.getElementById('open-week').value,
         teacherEmail: currentTeacher ? currentTeacher.email : ''
       };
-      if (!payload.subjectCode) return showToast('กรุณาระบุรหัสวิชา');
-      const res = await callApi(payload);
-      if (res.status === 'success') {
+      if (!sessionData.subjectId) return showToast('กรุณาระบุรหัสวิชา');
+      const res = await callServer('openClassSession', [sessionData]);
+      if (res && res.success) {
         showToast('✅ ' + res.message);
         refreshSystem();
       } else {
-        showToast('❌ ' + res.message);
+        showToast('❌ ' + (res ? res.message : 'เปิดคลาสไม่สำเร็จ'));
       }
     }
 
     async function handleCloseClass() {
-      const res = await callApi({ action: 'closeClassSession' });
-      if (res.status === 'success') {
+      const res = await callServer('closeClassSession', []);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        refreshSystem();
+      }
+    }
+
+    async function handleAddScheduleItem() {
+      const item = {
+        day: document.getElementById('new-sched-day').value,
+        period: document.getElementById('new-sched-period').value,
+        timeRange: '',
+        subjectId: document.getElementById('new-sched-code').value.trim(),
+        subjectName: document.getElementById('new-sched-name').value.trim(),
+        classRoom: document.getElementById('new-sched-class').value.trim(),
+        teacherEmail: currentTeacher ? currentTeacher.email : ''
+      };
+      if (!item.subjectId) return showToast('กรุณากรอกรหัสวิชา');
+      const res = await callServer('addScheduleItem', [item]);
+      if (res && res.success) {
         showToast('✅ ' + res.message);
         refreshSystem();
       }
@@ -1158,12 +1146,15 @@
       const filtered = appState.logs.filter(l => {
         if (dateVal && l.date !== dateVal) return false;
         if (periodVal !== 'ALL' && l.period !== periodVal) return false;
-        if (subjectVal !== 'ALL' && l.subjectCode !== subjectVal) return false;
+        if (subjectVal !== 'ALL' && l.subjectId !== subjectVal) return false;
         return true;
       });
 
       const byPc = {};
-      filtered.forEach(item => { byPc[item.pcNo] = item; });
+      filtered.forEach(item => {
+        const num = parseInt(String(item.pcId).replace(/\D/g, ''), 10);
+        if (num >= 1 && num <= 40) byPc[num] = item;
+      });
 
       container.innerHTML = '';
       for (let i = 1; i <= 40; i++) {
@@ -1174,13 +1165,14 @@
           : 'rounded-xl border border-slate-200 bg-slate-100/70 p-2 text-center text-slate-400 flex flex-col justify-center min-h-[115px]';
 
         if (log) {
-          const imgHtml = log.photoUrl
-            ? `<img src="${log.photoUrl}" onclick="showLargePhoto('${log.photoUrl}', 'เครื่องที่ ${i} : ${log.studentName} (${log.classroom})')" class="w-12 h-12 object-cover rounded-lg cursor-pointer border border-emerald-300 shrink-0" />`
+          const imgSrc = normalizeDriveImageUrl(log.photoUrl);
+          const imgHtml = imgSrc
+            ? `<img src="${imgSrc}" onclick="showLargePhoto('${imgSrc}', 'เครื่องที่ ${i} : ${log.studentName} (${log.classRoom})')" class="w-12 h-12 object-cover rounded-lg cursor-pointer border border-emerald-300 shrink-0" />`
             : `<div class="w-12 h-12 rounded-lg bg-slate-200 flex items-center justify-center text-[10px] text-slate-500 shrink-0">ไม่มีรูป</div>`;
           card.innerHTML = `
             <div class="flex items-center justify-between text-[11px] font-bold text-slate-900 border-b border-emerald-200 pb-1">
               <span>เครื่องที่ ${i}</span>
-              <span class="px-1.5 py-0.5 rounded bg-emerald-700 text-white text-[10px]">${log.classroom}</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-700 text-white text-[10px]">${log.classRoom || '-'}</span>
             </div>
             <div class="flex items-center gap-1.5 py-1">
               ${imgHtml}
@@ -1212,14 +1204,14 @@
 
       let students = appState.students;
       if (clsName) {
-        students = students.filter(s => s.classroom === clsName);
+        students = students.filter(s => s.classRoom === clsName);
       }
 
       tbody.innerHTML = '';
       students.forEach((st, idx) => {
         const attendedWeeks = new Set();
         appState.logs.forEach(l => {
-          if (l.studentId === st.studentId && (!subCode || l.subjectCode === subCode)) {
+          if (l.studentId === st.studentId && (!subCode || l.subjectId === subCode)) {
             const wNum = parseInt(String(l.week).replace(/\D/g, ''), 10);
             if (wNum >= 1 && wNum <= 20) attendedWeeks.add(wNum);
           }
@@ -1255,11 +1247,6 @@
       link.href = URL.createObjectURL(blob);
       link.download = `รายงานเข้าเรียน20สัปดาห์_ห้อง1204.csv`;
       link.click();
-    }
-
-    function printSeatingMap() {
-      document.body.classList.remove('print-landscape');
-      window.print();
     }
 
     function print20WeekReportA4() {
@@ -1316,14 +1303,62 @@
       win.document.close();
     }
 
+    // --- นำเข้ารายชื่อนักเรียน & จัดการครุภัณฑ์ ---
+    async function handleImportStudents() {
+      const raw = document.getElementById('batch-students-input').value.trim();
+      if (!raw) return showToast('กรุณาวางข้อมูลรายชื่อนักเรียน');
+      const rows = raw.split('\n').map(line => {
+        const parts = line.split(/[,\t]/).map(s => s.trim());
+        return {
+          studentId: parts[0] || '',
+          prefix: parts[1] || '',
+          firstName: parts[2] || '',
+          lastName: parts[3] || '',
+          classRoom: parts[4] || ''
+        };
+      });
+      const res = await callServer('importStudentsBatch', [rows]);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        document.getElementById('batch-students-input').value = '';
+        refreshSystem();
+      }
+    }
+
+    async function handleUpdateComputerStatus() {
+      const pcId = document.getElementById('asset-pc-select').value;
+      const status = document.getElementById('asset-status-select').value;
+      const res = await callServer('updateComputerStatus', [pcId, status]);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        refreshSystem();
+      }
+    }
+
+    async function handleSync40Computers() {
+      const res = await callServer('syncAll40ComputersToSheet', []);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        refreshSystem();
+      }
+    }
+
+    // --- ตั้งค่า Admin & สำรองข้อมูล & ย้ายโฟลเดอร์ Google Drive ---
+    async function handleTestSheetConnection() {
+      const sid = document.getElementById('cfg-sheet-id').value.trim();
+      const res = await callServer('testSheetConnection', [sid]);
+      showToast(res && res.success ? '✅ ' + res.message : '❌ ' + (res ? res.message : 'เชื่อมต่อไม่สำเร็จ'));
+    }
+
     async function saveSystemSettings() {
       const newUrl = document.getElementById('cfg-script-url').value.trim();
       const newSheetId = document.getElementById('cfg-sheet-id').value.trim();
       if (newUrl) localStorage.setItem('LAB1204_SCRIPT_URL', newUrl);
+      if (newSheetId) localStorage.setItem('LAB1204_SHEET_ID', newSheetId);
 
       if (newSheetId) {
-        const res = await callApi({ action: 'updateConfig', spreadsheetId: newSheetId });
-        showToast(res.status === 'success' ? '✅ ' + res.message : '❌ ' + res.message);
+        const res = await callServer('updateSystemConfig', [{ spreadsheetId: newSheetId }]);
+        showToast(res && res.success ? '✅ ' + res.message : '❌ ' + (res ? res.message : 'บันทึกไม่สำเร็จ'));
       } else {
         showToast('✅ บันทึก Web App URL เรียบร้อยแล้ว');
       }
@@ -1332,17 +1367,30 @@
 
     async function handleMovePhotoFolder() {
       const targetId = document.getElementById('drive-target-folder-input').value.trim();
-      const res = await callApi({ action: 'movePhotoRootFolder', destinationParentId: targetId });
-      showToast(res.status === 'success' ? '✅ ' + res.message : '❌ ' + res.message);
+      const res = await callServer('movePhotoRootFolder', [targetId]);
+      showToast(res && res.success ? '✅ ' + res.message : '❌ ' + (res ? res.message : 'ย้ายโฟลเดอร์ไม่สำเร็จ'));
       refreshSystem();
     }
 
     async function handleSetCustomPhotoFolder() {
       const newRootId = document.getElementById('drive-target-folder-input').value.trim();
       if (!newRootId) return showToast('กรุณาวางลิงก์หรือ Folder ID ของโฟลเดอร์หลักใหม่');
-      const res = await callApi({ action: 'setCustomPhotoRootFolder', newRootId });
-      showToast(res.status === 'success' ? '✅ ' + res.message : '❌ ' + res.message);
+      const res = await callServer('setCustomPhotoRootFolder', [newRootId]);
+      showToast(res && res.success ? '✅ ' + res.message : '❌ ' + (res ? res.message : 'เปลี่ยนโฟลเดอร์ไม่สำเร็จ'));
       refreshSystem();
+    }
+
+    async function handleBackupNow() {
+      const res = await callServer('backupSpreadsheetNow', []);
+      showToast(res && res.success ? '✅ ' + res.message : '❌ สำรองข้อมูลไม่สำเร็จ');
+    }
+
+    async function handleResetSemester() {
+      const res = await callServer('archiveAndResetSemester', []);
+      if (res && res.success) {
+        showToast('✅ ' + res.message);
+        refreshSystem();
+      }
     }
 
     function showLargePhoto(url, caption) {
